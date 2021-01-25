@@ -1,5 +1,6 @@
 import numpy as np
 import mir_eval
+import scipy
 
 
 def fast_intersect(ref, est):
