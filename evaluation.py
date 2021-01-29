@@ -66,7 +66,7 @@ def compute_TP_FP_FN(pred_events_df, ref_events_df):
     
     # normalize these numbers by number of events?
     # and its total number of POS events or POs and unk?
-
+    total_n_events = len(ref_events_df)
     return TP, FP, FN, total_n_events
 
 def compute_scores_per_class_and_average_scores_per_set(counts_per_class):
@@ -120,7 +120,7 @@ if __name__ == "__main__":
         # for each audiofile list, load correcponding GT File (audiofilename.csv)
         ref_events_this_audiofile = pd.read_csv(os.path.join(args.ref_file_path, audiofilename[0:-4]+'.csv'), dtype=str)
         # compare and get counts: TP, FP .. 
-        TP, FP, FN = compute_TP_FP_FN(pred_events_by_audiofile[audiofilename], ref_events_this_audiofile )
+        TP, FP, FN , total_n_events_in_audiofile= compute_TP_FP_FN(pred_events_by_audiofile[audiofilename], ref_events_this_audiofile )
 
         counts_per_audiofile[audiofilename]={"TP": TP, "FP": FP, "FN": FN}
     
@@ -163,8 +163,36 @@ if __name__ == "__main__":
     
     #average scores per all sets in the eval set 
     # av(dc_scores, ME_scores, ML_scores)
-    precision_sets = [av_scores_per_set[ds]["av_precision"] for ds in list_sets_in_evalset]
-# v.1 add possibility for several prediction files
+    Overall_scores = {"precision" : sum([av_scores_per_set[dt]["av_precision"] for dt in av_scores_per_set.keys()])/ len(list(av_scores_per_set.keys())) , 
+                    "recall": sum([av_scores_per_set[dt]["av_recall"] for dt in av_scores_per_set.keys()])/ len(list(av_scores_per_set.keys())) ,
+                    "fmeasure": sum([av_scores_per_set[dt]["av_fmeasure"] for dt in av_scores_per_set.keys()])/ len(list(av_scores_per_set.keys())) ,
+                    }
+    
+    
+
+    ## Build report
+
+    # Team name: from args or default
+    # main set name: from args (it needs to read the metadata key that maps classes to audiofiles)
+    # overall scores: 
+        # precision, recall, fmeasure
+    # scores per subset:
+        # set1
+            #precision, recall, fmeasure
+        # set2
+             #...
+        # set3
+            # ...       
+    # scores per class: 
+        #class 1
+            # prcision ...
+        #class 2
+        #class 3
+
+
+
+
+    # v.1 add possibility for several prediction files
 # v.2 adapt code for csvs of training set where each audiofile has more than one class present.
 
 
