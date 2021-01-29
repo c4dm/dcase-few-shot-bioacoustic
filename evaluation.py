@@ -1,13 +1,18 @@
-import metrics
-import numpy as np
+
 import pandas as pd
 import argparse
 import os
-from glob import glob
+import json
+import numpy as np
+import metrics
 
-def select_unmatched_events_with_value(data_frame, class_name, value = 'POS',  matched_events_index=[]):
 
-    indexes_list = data_frame.index[data_frame[class_name] == value].tolist()
+
+# v.0 use one single prediction file with all audios from eval sets together.
+# def read_parse_single_pred_file(pred_csv_path, )
+def select_unmatched_events_with_value(data_frame, value = 'POS'):
+
+    indexes_list = data_frame.index[data_frame["Q"] == value].tolist()
 
     return indexes_list
 
@@ -20,95 +25,150 @@ def build_matrix_from_selected_rows(data_frame, selected_indexes_list ):
     return matrix_data
 
 
+def compute_TP_FP_FN(pred_events_df, ref_events_df):
+    # make one pass with bipartite graph matching between pred events and ref positive events
+    # get TP
+    
+
+    ref_pos_indexes = select_unmatched_events_with_value(ref_events_df, value = 'POS')
+
+    if "Q" not in pred_events_df.columns:
+        pred_events_df["Q"] = "POS"
+    pred_pos_indexes = select_unmatched_events_with_value(pred_events_df, value="POS")
+
+    ref_1st_round = build_matrix_from_selected_rows(ref_events_df, ref_pos_indexes)
+    pred_1st_round = build_matrix_from_selected_rows(pred_events_df, pred_pos_indexes)
+
+    m_pos = metrics.match_events(ref_1st_round, pred_1st_round)
+    matched_ref_indexes = [ri for ri,pi in m_pos]  # TODO correct the indexes: causes cnfusion! indexes from dataframe are different from the match_events function
+    matched_pred_indexes = [pi for ri,pi in m_pos]
+
+
+    ref_unk_indexes = select_unmatched_events_with_value(ref_events_df, value = 'UNK')
+    ref_2nd_round = build_matrix_from_selected_rows(ref_events_df, ref_unk_indexes)
+
+    unmatched_pred_events = list(set(range(pred_1st_round.shape[1])) - set(matched_pred_indexes))
+    pred_2nd_round = pred_1st_round[: , unmatched_pred_events]
+
+    m_unk = metrics.match_events(ref_2nd_round, pred_2nd_round)
+
+    print("Positive matches between Ref and Pred :", m_pos)
+    print("matches with Unknown events: ", m_unk)
+    
+    TP = len(m_pos)
+    FP = pred_1st_round.shape[1] - TP - len(m_unk)
+    
+    # compute unmatched ref events:
+    matched_events_ref = TP + len(m_unk)
+    count_unmached_ref_events = len(ref_events_df)- matched_events_ref
+    FN = count_unmached_ref_events
+
+    
+    # normalize these numbers by number of events?
+    # and its total number of POS events or POs and unk?
+
+    return TP, FP, FN, total_n_events
+
+def compute_scores_per_class_and_average_scores_per_set(counts_per_class):
+
+    scores_per_class = {}
+    cumulative_fmeasure = 0
+    cumulative_precision = 0
+    cumulative_recall = 0
+    for cl in counts_per_class.keys():
+        TP = counts_per_class[cl]["TP"]
+        FP = counts_per_class[cl]["FP"]
+        FN = counts_per_class[cl]["FN"]
+        if np.sum([TP,FP,FN])==0:  # no predictions for this class
+            continue
+        
+        precision = TP/(TP+FP)
+        recall = TP/(FN+TP)
+        fmeasure = TP/(TP+0.5*(FP+FN))
+        scores_per_class[cl] = {"precision": precision, "recall": recall, "f-measure":fmeasure }
+
+        cumulative_fmeasure = cumulative_fmeasure +fmeasure 
+        cumulative_precision = cumulative_precision+precision
+        cumulative_recall = cumulative_recall +recall
+    
+    n_classes = len(list(counts_per_class.keys())) 
+    # average scores in this set:
+    av_scores_set = {"av_precision": cumulative_precision/n_classes, "av_recall": cumulative_recall/n_classes, "av_fmeasure": cumulative_fmeasure/n_classes }
+    return scores_per_class, av_scores_set
+    
+
+
 if __name__ == "__main__":
 
-    # # I'm assuming one team produces one predictions csv per ref csv"
-    # # filenames must follow a convention, here i'm using only an example, but assuming there will be a team name there.
-
-
     parser = argparse.ArgumentParser()
-    parser.add_argument('-path', type=str, help='path to folder with Predictions csv files of all teams')
-    parser.add_argument('-ref_file_path', type=str, help='path to the reference events file')
+    parser.add_argument('-pred_file_path', type=str, help='path to folder with prediction csv')
+    parser.add_argument('-ref_file_path', type=str, help='path to the reference events csvs')
+    parser.add_argument('-metadata', type=str, help="path for metadata json (map between audiofiles and classes")
+    # parser.add_argument('-team_name', type=str, help='team identification') # make this optional?
     args = parser.parse_args()
-    # print(args)
+    print(args)
 
-    # list prediction files in folder args.path:
-    pred_filenames_list = glob(args.path+'*_PRED_example.csv')  # TODO agree on a filename convention and change it here,
+    #read prediction csv
+    pred_csv = pd.read_csv(args.pred_file_path, dtype=str)
+    #  parse prediction csv
+    # split file into lists of events for the same audiofile.
+    pred_events_by_audiofile = dict(tuple(pred_csv.groupby('Audiofilename')))
+
+    counts_per_audiofile = {}
+    for audiofilename in list(pred_events_by_audiofile.keys()):
+        
+        # for each audiofile list, load correcponding GT File (audiofilename.csv)
+        ref_events_this_audiofile = pd.read_csv(os.path.join(args.ref_file_path, audiofilename[0:-4]+'.csv'), dtype=str)
+        # compare and get counts: TP, FP .. 
+        TP, FP, FN = compute_TP_FP_FN(pred_events_by_audiofile[audiofilename], ref_events_this_audiofile )
+
+        counts_per_audiofile[audiofilename]={"TP": TP, "FP": FP, "FN": FN}
     
-    #read ref csv
-    ref_csv = pd.read_csv(args.ref_file_path)
-    class_names = list(ref_csv.columns)[3:]
-    # print('LABELS:', class_names)
+    # using the key for classes => audiofiles,  # load sets metadata:
+    with open(args.metadata) as metadatafile:
+            dataset_metadata = json.load(metadatafile)
 
-
-    results_per_team = {}
-    for team_pred_filename in pred_filenames_list:
-        team = team_pred_filename.split("_PRED_example.csv")[0].split(os.sep)[-1] # TODO agree on a filename convention and change it here, it must constain the team name
-        print('\n')
-        print("Team:", team)
-        
-        # read pred csv:
-        pred_csv = pd.read_csv(team_pred_filename)
-
+    # aggregate the counts per class
+    list_sets_in_evalset = list(dataset_metadata["EVAL"].keys())
+    list_classes_in_eval = []
+    counts_per_class = {}
+    counts_per_class_per_set = {}
+    scores_per_class_per_set={}
+    av_scores_per_set={}
+    for data_set in list_sets_in_evalset:
+        list_classes_in_eval.extend(list(dataset_metadata["EVAL"][data_set].keys()))        
+        list_classes_in_set = list(dataset_metadata["EVAL"][data_set].keys())
+   
+        counts_per_class_per_set[data_set] = {}
     
-        metric_results_per_class= {}
+        for cl in list_classes_in_set:
+            list_audiofiles_this_class = dataset_metadata["EVAL"][data_set][cl]
+            tp = 0
+            fn = 0
+            fp = 0
+            for audiofile in list_audiofiles_this_class:
+                try:
+                    tp = tp + counts_per_audiofile[audiofile+".wav"]["TP"]
+                    fn = fn + counts_per_audiofile[audiofile+".wav"]["FN"]
+                    fp = fp + counts_per_audiofile[audiofile+".wav"]["FP"]
+                except KeyError:
+                    # there were no detections for this audiofile:
+                    continue
+            counts_per_class[cl] = {"TP":tp, "FN": fn, "FP": fp}
+            counts_per_class_per_set[data_set][cl] = {"TP":tp, "FN": fn, "FP": fp}
+
+        #  compute scores per class. # aggregate scores per sets: will this be an average of scores across classes of each set?
+        scores_per_class_per_set[data_set], av_scores_per_set[data_set] = compute_scores_per_class_and_average_scores_per_set(counts_per_class_per_set[data_set])  
             
-        for cl in class_names:
-            # if cl != 'CalltypeX':
-            #     break
-            print("\n")
-            print(cl)
-
-            ref_per_class = select_unmatched_events_with_value(ref_csv, class_name=cl, value = 'POS')
-            ref_UNK_per_class = select_unmatched_events_with_value(ref_csv, class_name=cl, value = 'UNK')
-            pred_per_class = select_unmatched_events_with_value(pred_csv, class_name=cl, value = 'POS')        
-
-            # print("ref events for class", cl, " : ", ref_csv.loc[ref_per_class])
-            # print("ref events UNK for class", cl, " : ", ref_csv.loc[ref_UNK_per_class])
-            # print("pred events for class", cl, " : ", pred_csv.loc[pred_per_class])
-
-            ref = build_matrix_from_selected_rows(ref_csv, ref_per_class)
-            pred = build_matrix_from_selected_rows(pred_csv, pred_per_class)
-
-        # 1st round of matches:  POS in REF with POS in PRED
-            m_pos = metrics.match_events(ref, pred)
-            matched_ref_indexes = [ri for ri,pi in m_pos]  # TODO correct the indexes: indexes from dataframe are different from the match_events function
-            matched_pred_indexes = [pi for ri,pi in m_pos]
-
-
-            ref_unk = build_matrix_from_selected_rows(ref_csv, ref_UNK_per_class)
-        
-            remaining = list(set(range(pred.shape[1])) - set(matched_pred_indexes))
-            pred_unk = pred[: , remaining]
-
-        # 2nd round of matches: UNK in ref
-
-            m_unk = metrics.match_events(ref_unk, pred_unk)
-
-            print("Positive matches between Ref and Pred :", m_pos)
-            print("matches with Unknown events: ", m_unk)
-            
-
-            TP = len(m_pos)
-            FP = pred.shape[1] - TP - len(m_unk)
-            # compute unmatched ref events:
-            matched_events_ref = TP + len(m_unk)
-            FN = len(ref_csv)- matched_events_ref
-        
-
-            # precision = sed_eval.metric.precicion(TP, pred.shape[1])
-            # recall = sed_eval.metric.recall(TP,ref.shape[1])
-            # # Fmeasure =
-            metric_results_per_class[cl] = {"TP": len(m_pos), "FP": pred.shape[1] - len(m_pos) - len(m_unk), "FN": FN  }
-        print(metric_results_per_class)
-
-
-        
-
-    print("stop")
+    
+    #average scores per all sets in the eval set 
+    # av(dc_scores, ME_scores, ML_scores)
+    precision_sets = [av_scores_per_set[ds]["av_precision"] for ds in list_sets_in_evalset]
+# v.1 add possibility for several prediction files
+# v.2 adapt code for csvs of training set where each audiofile has more than one class present.
 
 
 
+### backbone functions?:
 
-
-
+print('stop')
