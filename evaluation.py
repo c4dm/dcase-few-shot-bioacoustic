@@ -331,60 +331,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # print(args)
 
-    # evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath, args.metadata)
-    # evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath)
-
-
-
-    # pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/baseline_template_val_predictions.csv"
-    # ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/VAL/GT/"
-    # metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
-    # team_name="Baseline_template_matching"
-    # dataset="VAL"
-    # savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
-			 
-
-    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
-    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
-
-
-    # pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/baseline_template_eval_predictions.csv"
-    # ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/EVAL/GT/"
-    # metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
-    # team_name="Baseline_template_matching"
-    # dataset="EVAL"
-    # savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
-
-    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
-    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
-
-
-    pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/baseline_template_val_predictions.csv"
-    ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/VAL/GT/"
-    metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
-    team_name="Baseline_template_matching"
-    dataset="VAL"
-    savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
-
-    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
-    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
-    pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/baseline_template_eval_predictions.csv"
-    ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/EVAL/GT/"
-    metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
-    team_name="Baseline_template_matching"
-    dataset="EVAL"
-    savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
-
-    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
-    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
-    pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/prototypicalNN_baseline_VAL_predictions.csv"
-    ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/VAL/GT/"
-    metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
-    team_name="Baseline_prototypicalNN"
-    dataset="VAL"
-    savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
-
-    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
-    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
-
+    evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath, args.metadata)
+    evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath)
 
