@@ -1,0 +1,11 @@
+future==0.18.2
+mir-eval==0.6
+numpy==1.20.1
+pandas==1.2.2
+pip==20.3.3
+python-dateutil==2.8.1
+pytz==2021.1
+scipy==1.6.0
+setuptools==51.1.0
+six==1.15.0
+wheel==0.36.2

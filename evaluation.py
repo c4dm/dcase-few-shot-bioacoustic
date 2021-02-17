@@ -180,8 +180,9 @@ def evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metad
     #read prediction csv
     pred_csv = pd.read_csv(pred_file_path, dtype=str)
     #verify headers:
-    if list(pred_csv.columns) ==  ["Audiofilename","Starttime","Endtime"]:
+    if list(pred_csv.columns) !=  ["Audiofilename","Starttime","Endtime"]:
         print('Please correct the header of the prediction file. This should be "Audiofilename","Starttime","Endtime"')
+        exit(1)
     #  parse prediction csv
     #  split file into lists of events for the same audiofile.
     pred_events_by_audiofile = dict(tuple(pred_csv.groupby('Audiofilename')))
