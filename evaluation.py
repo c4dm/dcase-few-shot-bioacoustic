@@ -13,6 +13,18 @@ import glob
 
 # v.0 use one single prediction file with all audios from eval sets together.
 # def read_parse_single_pred_file(pred_csv_path, )
+def remove_shots_from_ref(ref_df, number_shots=5):
+    # sort ref file by endtime?
+    # sorted_ref_df = ref_df.sort_values(by='Endtime', ignore_index=True)
+    ref_pos_indexes = select_events_with_value(ref_df, value = 'POS')
+    ref_n_shot_index = ref_pos_indexes[number_shots-1]
+    # remove all events (pos and UNK) that happen before this 5th event
+    # make sure only 5 pos are being removed
+    events_to_drop = ref_df.index[ref_df['Endtime'] <= ref_df.iloc[ref_n_shot_index]['Endtime']].tolist()
+    
+    ref_df.drop(events_to_drop)
+    return ref_df.drop(events_to_drop)
+
 def select_events_with_value(data_frame, value = 'POS'):
 
     indexes_list = data_frame.index[data_frame["Q"] == value].tolist()
@@ -47,7 +59,7 @@ def compute_TP_FP_FN(pred_events_df, ref_events_df):
     ref_1st_round = build_matrix_from_selected_rows(ref_events_df, ref_pos_indexes)
     pred_1st_round = build_matrix_from_selected_rows(pred_events_df, pred_pos_indexes)
 
-    m_pos = metrics.match_events(ref_1st_round, pred_1st_round)
+    m_pos = metrics.match_events(ref_1st_round, pred_1st_round, min_iou = 0.5)
     matched_ref_indexes = [ri for ri,pi in m_pos]  # TODO correct the indexes: causes cnfusion! indexes from dataframe are different from the match_events function
     matched_pred_indexes = [pi for ri,pi in m_pos]
 
@@ -58,7 +70,7 @@ def compute_TP_FP_FN(pred_events_df, ref_events_df):
     unmatched_pred_events = list(set(range(pred_1st_round.shape[1])) - set(matched_pred_indexes))
     pred_2nd_round = pred_1st_round[: , unmatched_pred_events]
 
-    m_unk = metrics.match_events(ref_2nd_round, pred_2nd_round)
+    m_unk = metrics.match_events(ref_2nd_round, pred_2nd_round, min_iou = 0.5)
 
     print("Positive matches between Ref and Pred :", m_pos)
     print("matches with Unknown events: ", m_unk)
@@ -186,7 +198,10 @@ def evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metad
         # find wich subset the audiofile belongs to:
         
         # for each audiofile list, load correcponding GT File (audiofilename.csv)
-        ref_events_this_audiofile = pd.read_csv(os.path.join(ref_file_path, inv_gt_file_structure[audiofilename], audiofilename[0:-4]+'.csv'), dtype=str)
+        ref_events_this_audiofile_all = pd.read_csv(os.path.join(ref_file_path, inv_gt_file_structure[audiofilename], audiofilename[0:-4]+'.csv'), dtype={'Starttime':np.float64, 'Endtime': np.float64})
+        #Remove the 5 shots from GT here! 
+
+        ref_events_this_audiofile = remove_shots_from_ref(ref_events_this_audiofile_all, number_shots=5)
         # compare and get counts: TP, FP .. 
         TP, FP, FN , total_n_events_in_audiofile= compute_TP_FP_FN(pred_events_by_audiofile[audiofilename], ref_events_this_audiofile )
 
@@ -331,152 +346,70 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args)
 
-
-    evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath, args.metadata)
-    evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath)
-
-    
-    
-
-    # #read Gt file structure: get subsets and paths for ref csvs make an inverted dictionary with audiofilenames as keys and folder as value
-    # gt_file_structure = {}
-    # gt_file_structure[args.dataset] = {}
-    # inv_gt_file_structure = {}
-    # list_of_subsets = os.listdir(args.ref_file_path)
-    # for subset in list_of_subsets:
-    #     gt_file_structure[args.dataset][subset] = os.listdir(os.path.join(args.ref_file_path,subset))
-
-    #     for audiofile in gt_file_structure[args.dataset][subset]:
-    #         inv_gt_file_structure[audiofile] = subset
-
-
-    # #read prediction csv
-    # pred_csv = pd.read_csv(args.pred_file_path, dtype=str)
-    # #  parse prediction csv
-    # # split file into lists of events for the same audiofile.
-    # pred_events_by_audiofile = dict(tuple(pred_csv.groupby('Audiofilename')))
-
-    # counts_per_audiofile = {}
-    # for audiofilename in list(pred_events_by_audiofile.keys()):
-    #     print(audiofilename)
-        
-    #     # find wich subset the audiofile belongs to:
-        
-    #     # for each audiofile list, load correcponding GT File (audiofilename.csv)
-    #     ref_events_this_audiofile = pd.read_csv(os.path.join(args.ref_file_path, inv_gt_file_structure[audiofilename], audiofilename[0:-4]+'.csv'), dtype=str)
-    #     # compare and get counts: TP, FP .. 
-    #     TP, FP, FN , total_n_events_in_audiofile= compute_TP_FP_FN(pred_events_by_audiofile[audiofilename], ref_events_this_audiofile )
-
-    #     counts_per_audiofile[audiofilename]={"TP": TP, "FP": FP, "FN": FN, "total_n_pos_events": total_n_events_in_audiofile}
-   
-
-    # # this is optional:
-    # if args.metadata:
-    #     # using the key for classes => audiofiles,  # load sets metadata:
-    #     with open(args.metadata) as metadatafile:
-    #             dataset_metadata = json.load(metadatafile)
-    # else:
-    #     dataset_metadata = copy.deepcopy(gt_file_structure)
-
-    # # include audiofiles for which there were no predictions:
-    # list_all_audiofiles = []
-    # for miniset in dataset_metadata[args.dataset].keys():
-    #     if args.metadata:
-    #         for cl in dataset_metadata[args.dataset][miniset].keys():
-    #             list_all_audiofiles.extend(dataset_metadata[args.dataset][miniset][cl] )
-    #     else:
-    #         list_all_audiofiles.extend(dataset_metadata[args.dataset][miniset])
-
-    # for audiofilename in list_all_audiofiles:
-    #     if audiofilename+".wav" not in counts_per_audiofile.keys():
-    #         ref_events_this_audiofile = pd.read_csv(os.path.join(args.ref_file_path, inv_gt_file_structure[audiofilename], audiofilename+'.csv'), dtype=str)
-    #         total_n_pos_events_in_audiofile =  len(select_events_with_value(ref_events_this_audiofile, value = 'POS'))
-    #         counts_per_audiofile[audiofilename+".wav"] = {"TP": 0, "FP": 0, "FN": total_n_pos_events_in_audiofile, "total_n_pos_events": total_n_pos_events_in_audiofile}
-    
-
-
-        
-    # # aggregate the counts per class: 
-    # list_sets_in_mainset = list(dataset_metadata[args.dataset].keys())
-    # # list_classes_in_mainset = []
-    # # counts_per_class = {}
-    # counts_per_class_per_set = {}
-    # scores_per_class_per_set={}
-    # counts_per_set = {}
-    # scores_per_set = {}
-    # scores_per_audiofile={}
-    # for data_set in list_sets_in_mainset:
-    #     print(data_set)
-
-
-    #     if args.metadata:
-    #         # list_classes_in_mainset.extend(list(dataset_metadata[args.dataset][data_set].keys()))        
-    #         list_classes_in_set = list(dataset_metadata[args.dataset][data_set].keys())
-
-    #         counts_per_class_per_set[data_set] = {}
-        
-    #         for cl in list_classes_in_set:
-    #             print(cl)
-    #             list_audiofiles_this_class = dataset_metadata[args.dataset][data_set][cl]
-    #             tp = 0
-    #             fn = 0
-    #             fp = 0
-    #             total_n_pos_events_this_class = 0
-    #             for audiofile in list_audiofiles_this_class:
-    #                 scores_per_audiofile[audiofile] = compute_scores_from_counts(counts_per_audiofile)
-
-    #                 tp = tp + counts_per_audiofile[audiofile+".wav"]["TP"]
-    #                 fn = fn + counts_per_audiofile[audiofile+".wav"]["FN"]
-    #                 fp = fp + counts_per_audiofile[audiofile+".wav"]["FP"]
-    #                 total_n_pos_events_this_class = total_n_pos_events_this_class + counts_per_audiofile[audiofile+".wav"]["total_n_pos_events"]
-                
-    #             # counts_per_class[cl] = {"TP":tp, "FN": fn, "FP": fp, "total_n_pos_events_this_class": total_n_pos_events_this_class}
-    #             counts_per_class_per_set[data_set][cl] = {"TP":tp, "FN": fn, "FP": fp, "total_n_pos_events_this_class": total_n_pos_events_this_class}
-
-    #         #  compute scores per class. # aggregate scores per sets: will this be an average of scores across classes of each set?
-    #         scores_per_class_per_set[data_set], scores_per_set[data_set] = compute_scores_per_class_and_average_scores_per_set(counts_per_class_per_set[data_set])  
-        
-        
-    #     else:
-    #         list_audiofiles_in_set = dataset_metadata[args.dataset][data_set]
-    #         tp = 0
-    #         fn = 0
-    #         fp = 0
-    #         total_n_pos_events_this_set = 0
-    #         for audiofile in  list_audiofiles_in_set:
-
-    #             scores_per_audiofile[audiofile] = compute_scores_from_counts(counts_per_audiofile)
-    #             tp = tp + counts_per_audiofile[audiofile+".wav"]["TP"]
-    #             fn = fn + counts_per_audiofile[audiofile+".wav"]["FN"]
-    #             fp = fp + counts_per_audiofile[audiofile+".wav"]["FP"]
-    #             total_n_pos_events_this_set = total_n_pos_events_this_set + counts_per_audiofile[audiofile+".wav"]["total_n_pos_events"]
-    #             counts_per_set[data_set] = {"TP":tp, "FN": fn, "FP": fp, "total_n_pos_events_this_set": total_n_pos_events_this_class}
-            
-    #         #  compute scores per class. # aggregate scores per sets: will this be an average of scores across classes of each set?
-    #         scores_per_set[data_set]= compute_scores_from_counts(counts_per_set[data_set])
-                    
-
-    # #average scores per all sets in the eval set 
-    # # av(dc_scores, ME_scores, ML_scores)
-    
-    # Overall_scores = {"precision" : stats.hmean([scores_per_set[dt]["precision"] for dt in scores_per_set.keys()]) , 
-    #                 "recall":  stats.hmean([scores_per_set[dt]["recall"] for dt in scores_per_set.keys()]) ,
-    #                 "fmeasure":  stats.hmean([scores_per_set[dt]["f-measure"] for dt in scores_per_set.keys()])
-    #                 }
-   
-    
-    # if args.metadata:
-    #     build_report(Overall_scores, scores_per_set, scores_per_audiofile,
-    #             scores_per_class=scores_per_class_per_set,
-    #             save_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/", 
-    #             main_set_name = args.dataset )
-    # else:
-    #     build_report(Overall_scores, scores_per_set, scores_per_audiofile,
-    #             save_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/", 
-    #             main_set_name=args.dataset  )
+    # evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath, args.metadata)
+    # evaluate( args.pred_file_path, args.ref_file_path, args.team_name, args.dataset, args.savepath)
 
 
 
-# v.1 add possibility for several prediction files
-# v.2 adapt code for csvs of training set where each audiofile has more than one class present.
+    # pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/baseline_template_val_predictions.csv"
+    # ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/VAL/GT/"
+    # metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
+    # team_name="Baseline_template_matching"
+    # dataset="VAL"
+    # savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
+			 
+
+    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
+    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
+
+
+    # pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/baseline_template_eval_predictions.csv"
+    # ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/Template_matching_baseline/EVAL/GT/"
+    # metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
+    # team_name="Baseline_template_matching"
+    # dataset="EVAL"
+    # savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
+
+    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
+    # evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
+
+
+    pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/baseline_template_val_predictions.csv"
+    ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/VAL/GT/"
+    metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
+    team_name="Baseline_template_matching"
+    dataset="VAL"
+    savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
+
+    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
+    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
+    pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/baseline_template_eval_predictions.csv"
+    ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/EVAL/GT/"
+    metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
+    team_name="Baseline_template_matching"
+    dataset="EVAL"
+    savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
+
+    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
+    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
+    pred_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/prototypicalNN_baseline_VAL_predictions.csv"
+    ref_file_path="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/example_team_results/baselines/VAL/GT/"
+    metadata="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/metadata_audiofile_class.json"
+    team_name="Baseline_prototypicalNN"
+    dataset="VAL"
+    savepath="/mnt/c/Users/madzi/Dropbox/QMUL/PHD/DCASE2021_few-shot_bioacoustics_challenge/dcase-few-shot-bioacoustic/"
+
+    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metadata)
+    evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath)
+
+
+
+# TODO make verifications for cases where audiofile does not have a corresponding csv file  ex: line 189
+# TODO make sure headers are the correct ones, without spaces!
+# TODO add to report prediction file used. maybe the path.
+# TODO add to report some space for notes like model used or variant of something
+# TODO save matches ?
+# TODO remove from GT the 5 shots 
+# TODO change the match events min IOU threshold for 50%
+# TODO harmonic mean computation
 
