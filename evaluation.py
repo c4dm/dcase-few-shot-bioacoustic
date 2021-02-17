@@ -89,7 +89,7 @@ def compute_TP_FP_FN(pred_events_df, ref_events_df):
     total_n_POS_events = len(ref_pos_indexes)
     return TP, FP, FN, total_n_POS_events
 
-def compute_scores_per_class_and_average_scores_per_set(counts_per_class):
+def compute_scores_per_class(counts_per_class):
 
     scores_per_class = {}
     cumulative_fmeasure = []
@@ -111,15 +111,15 @@ def compute_scores_per_class_and_average_scores_per_set(counts_per_class):
 
         scores_per_class[cl] = {"precision": precision, "recall": recall, "f-measure":fmeasure }
 
-        cumulative_fmeasure.append(fmeasure)
-        cumulative_precision.append(precision)
-        cumulative_recall.append(recall)
+        # cumulative_fmeasure.append(fmeasure)
+        # cumulative_precision.append(precision)
+        # cumulative_recall.append(recall)
     
     # n_classes = len(counts_per_class) 
     # average scores in this set:
-    av_scores_set = {"precision": stats.hmean(cumulative_precision), "recall": stats.hmean(cumulative_recall), "f-measure": stats.hmean(cumulative_fmeasure) }
+    #av_scores_set = {"precision": stats.hmean(cumulative_precision), "recall": stats.hmean(cumulative_recall), "f-measure": stats.hmean(cumulative_fmeasure) }
        
-    return scores_per_class, av_scores_set
+    return scores_per_class #, av_scores_set
     
 def compute_scores_from_counts(counts):
     TP = counts["TP"]
@@ -272,7 +272,7 @@ def evaluate( pred_file_path, ref_file_path, team_name, dataset, savepath, metad
             #  compute scores per subset.  
             scores_per_set[data_set]= compute_scores_from_counts(counts_per_set[data_set])
             #  compute scores per class
-            scores_per_class_per_set[data_set], _ = compute_scores_per_class_and_average_scores_per_set(counts_per_class_per_set[data_set])  
+            scores_per_class_per_set[data_set]= compute_scores_per_class(counts_per_class_per_set[data_set])  
             
         
         else:
