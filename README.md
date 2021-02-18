@@ -1,4 +1,9 @@
-# Description
+# Repo Description
+This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, produce a submission package, and also for the baseline systems.
+
+TODO: explain files and how to run
+
+# Task Description
 **Few-shot learning is a highly promising paradigm for sound event detection. It is also an extremely good fit to the needs of users in bioacoustics, in which increasingly large acoustic datasets commonly need to be labelled for events of an identified category** (e.g. species or call-type), even though this category might not be known in other datasets or have any yet-known label. While satisfying user needs, this will also benchmark few-shot learning for the wider domain of SED.
 
 <p align="center"><img src="https://github.com/c4dm/dcase-few-shot-bioacoustic/blob/main/VM.png" alt="figure" width="500"/></p>
