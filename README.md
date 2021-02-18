@@ -38,9 +38,9 @@ The BirdVox-DCASE-10h (BV for short) contains five audio files from four differe
 | Total events (excl. UNK)		|	2,662 |
 | Sampling rate					|	24,000 Hz |
 
-### HV
+### HT
 
-TODO: paragraph from Ari
+Spotted hyenas are a highly social species that live in "fission-fusion" groups where group members range alone or in smaller subgroups that split and merge over time. Hyenas use a variety of types of vocalizations to coordinate with one another over both short and long distances. Spotted hyena vocalization data were recorded on custom-developed audio tags designed by Mark Johnson and integrated into combined GPS / acoustic collars (Followit Sweden AB) by Frants Jensen and Mark Johnson. Collars were deployed on female hyenas of the Talek West hyena clan at the <a href="https://www.holekamplab.org/">MSU-Mara Hyena Project</a> (directed by Kay Holekamp) in the Masai Mara, Kenya as part of a multi-species <a href="https://www.movecall.group/">study on communication and collective behavior</a>. Field work was carried out by Kay Holekamp, Andrew Gersick, Frants Jensen, Ariana Strandburg-Peshkin, and  Benson Pion; labeling was done by Kenna Lehmann and colleagues.
 
 | Statistics | Values |
 | --- | --- |
@@ -64,7 +64,8 @@ TODO: paragraph from Lisa
 
 ### MT
 
-TODO: paragraph from Ari
+Meerkats are a highly social mongoose species that live in stable social groups and use a variety of distinct vocalizations to communicate and coordinate with one another. Meerkat vocalization data were recorded at the <a href="https://kalahari-meerkats.com/kmp/">Kalahari Meerkat Project</a> (Kuruman River Reserve, South Africa; directed by Marta Manser and Tim Clutton-Brock), as part of a multi-species <a href="https://www.movecall.group/">study on communication and collective behavior</a>. Data in the training set were recorded on small audio devices (TS Market, Edic Mini Tiny+ A77, 8 kHz) integrated into combined GPS/audio collars which were deployed on multiple members of meerkat groups to monitor their movements and vocalizations simultaneously. Data in the test set were recorded by an observer following a focal meerkat with a Sennheiser ME66 directional microphone (44.1 kHz) from a distance of < 1 m. Recordings were carried out during daytime hours while meerkats were primarily foraging (digging in the ground for small prey items). Field work was carried out by Ariana Strandburg-Peshkin, Baptiste Averly, Vlad Demartsev, Gabriella Gall, Rebecca Schaefer and Marta Manser. Audio recordings were labeled by Baptiste Averly, Vlad Demartsev, Ariana Strandburg-Peshkin, and colleagues.
+
 
 | Statistics | Values |
 | --- | --- | 
@@ -180,9 +181,19 @@ Finally, for supporting reproducible research, we kindly ask from each participa
 
 TODO: Submission example zip
 
-# Evaluation Measure
+# Evaluation Metric
+
+We implemented an event-based F-measure, macro-averaged evaluation metric. We use IoU followed by bipartite graph matching. The evalution metric ignores the part of the file that contains the first five positive (POS) events and measure are estimated after the end time of the fitfh positive event for each file. Furthermore, real-world datasets contain a small number of ambiguous or unknown labels marked as UNK in the annotation files provided. This evaluation metrics treats these separately during evaluation, so as not to penalise algorithms that can perform better than a human annotator. **Final ranking of methods will be based on the overall F-measure for the whole of the evaluation set.**
+
+The implementation of the evaluation metric can be found <a href="">here</a>.
 
 # Baseline Systems
+
+Two baselines are provided:
++ Spectrogram correlation template matching (common in bioacoustics)
++ Deep learning prototypical network (a good modern approach)
+
+Both baselines can be accessed <a href="">here</a>.
 
 ## Cross-corelation
 
