@@ -151,6 +151,7 @@ There is no overlap between the development set and evaluation set classes. Each
 ## Download
 
 TODO: add DOI links and instant download links from zenodo
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4543504.svg)](https://doi.org/10.5281/zenodo.4543504)
 
 # Task setup
 
