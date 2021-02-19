@@ -201,6 +201,3 @@ Two baselines are provided:
 
 Both baselines can be accessed <a href="">here</a>.
 
-## Cross-corelation
-
-## Deep Learning Prototypical Network
