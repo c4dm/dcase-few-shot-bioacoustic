@@ -1,7 +1,7 @@
 # Repo Description
 This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, produce a submission package, and also for the baseline systems.
 
-TODO: explain files and how to run
+TODO: explain files 
 
 # Task Description
 **Few-shot learning is a highly promising paradigm for sound event detection. It is also an extremely good fit to the needs of users in bioacoustics, in which increasingly large acoustic datasets commonly need to be labelled for events of an identified category** (e.g. species or call-type), even though this category might not be known in other datasets or have any yet-known label. While satisfying user needs, this will also benchmark few-shot learning for the wider domain of SED.
@@ -150,7 +150,7 @@ There is no overlap between the development set and evaluation set classes. Each
 
 ## Download
 
-TODO: add DOI links and instant download links from zenodo
+TODO: add download link from zenodo, for audio only, annotations only, and both
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4543504.svg)](https://doi.org/10.5281/zenodo.4543504)
 
 # Task setup
@@ -176,7 +176,7 @@ Official challenge submission consists of:
 + Metadata file (`*.yaml`)
 + Technical report explaining in sufficient detail the method (`*.pdf`)
 
-System output should be presented as a single text-file (in CSV format, with a header row as in the zip example below). 
+System output should be presented as a **single** text-file (in CSV format, with a header row as in the zip example below). 
 
 For each system, meta information should be provided in a separate file, containing the task-specific information. This meta information enables fast processing of the submissions and analysis of submitted systems. Participants are advised to fill the meta information carefully while making sure all information is correctly provided.
 
