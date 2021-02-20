@@ -1,7 +1,5 @@
 # Repo Description
-This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, produce a submission package, and also for the baseline systems.
-
-TODO: explain files 
+This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, and the baseline systems. 
 
 # Task Description
 **Few-shot learning is a highly promising paradigm for sound event detection. It is also an extremely good fit to the needs of users in bioacoustics, in which increasingly large acoustic datasets commonly need to be labelled for events of an identified category** (e.g. species or call-type), even though this category might not be known in other datasets or have any yet-known label. While satisfying user needs, this will also benchmark few-shot learning for the wider domain of SED.
@@ -146,11 +144,13 @@ audio_val.wav,99.9,100.0,UNK
 
 **The evaluation set will be made available on June 1st 2021.** 
 
-There is no overlap between the development set and evaluation set classes. Each audio file will be accompanied by an single-class (class of interest) annotation file that will only contain the first five events of the class, making this a 5-shot problem. Participants will be asked to perform sound event detection for the class of interest for the rest of the audio file. Each audio file should be treated separately of the rest, as there is possible overlap between the classes of the evaluation set across different audio files.
+**There is no overlap between the development set and evaluation set classes.** 
+
+Each audio file will be accompanied by an single-class (class of interest) annotation file that will only contain the first five events of the class, making this a 5-shot problem. Participants will be asked to perform sound event detection for the class of interest for the rest of the audio file. Each audio file should be treated separately of the rest, as there is possible overlap between the classes of the evaluation set across different audio files.
 
 ## Download
 
-TODO: add download link from zenodo, for audio only, annotations only, and both
+###DCASE 2021 Task 5: Few-shot Bioacoustic Event Detection Development Set
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4543504.svg)](https://doi.org/10.5281/zenodo.4543504)
 
 # Task setup
@@ -176,7 +176,7 @@ Official challenge submission consists of:
 + Metadata file (`*.yaml`)
 + Technical report explaining in sufficient detail the method (`*.pdf`)
 
-System output should be presented as a **single** text-file (in CSV format, with a header row as in the zip example below). 
+System output should be presented as a **single** text-file (in CSV format, with a header row as in the submission zip example below). 
 
 For each system, meta information should be provided in a separate file, containing the task-specific information. This meta information enables fast processing of the submissions and analysis of submitted systems. Participants are advised to fill the meta information carefully while making sure all information is correctly provided.
 
@@ -191,7 +191,7 @@ TODO: Submission example zip
 
 We implemented an event-based F-measure, macro-averaged evaluation metric. We use IoU followed by bipartite graph matching. The evalution metric ignores the part of the file that contains the first five positive (POS) events and measure are estimated after the end time of the fitfh positive event for each file. Furthermore, real-world datasets contain a small number of ambiguous or unknown labels marked as UNK in the annotation files provided. This evaluation metrics treats these separately during evaluation, so as not to penalise algorithms that can perform better than a human annotator. **Final ranking of methods will be based on the overall F-measure for the whole of the evaluation set.**
 
-The implementation of the evaluation metric can be found <a href="">here</a>.
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/evaluation_metrics">###Download the evaluation metrics code</a>.
 
 # Baseline Systems
 
@@ -199,5 +199,5 @@ Two baselines are provided:
 + Spectrogram correlation template matching (common in bioacoustics)
 + Deep learning prototypical network (a good modern approach)
 
-Both baselines can be accessed <a href="">here</a>.
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/baselines">###Download the baselines code</a>
 
