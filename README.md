@@ -1,8 +1,8 @@
 # Repo Description
-This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, and the baseline systems. 
+This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, and the baseline systems, along with a detailed description of the task. 
 
 # Task Description
-**Few-shot learning is a highly promising paradigm for sound event detection. It is also an extremely good fit to the needs of users in bioacoustics, in which increasingly large acoustic datasets commonly need to be labelled for events of an identified category** (e.g. species or call-type), even though this category might not be known in other datasets or have any yet-known label. While satisfying user needs, this will also benchmark few-shot learning for the wider domain of SED.
+**Few-shot learning is a highly promising paradigm for sound event detection. It is also an extremely good fit to the needs of users in bioacoustics, in which increasingly large acoustic datasets commonly need to be labelled for events of an identified category** (e.g. species or call-type), even though this category might not be known in other datasets or have any yet-known label. While satisfying user needs, this will also benchmark few-shot learning for the wider domain of sound event detection (SED).
 
 <p align="center"><img src="https://github.com/c4dm/dcase-few-shot-bioacoustic/blob/main/VM.png" alt="figure" width="500"/></p>
 
@@ -127,7 +127,9 @@ The validation set comprises of two sub-folders (HV, PB). Specific information a
 | Sampling rate					|	44,100 Hz |
 
 ### Validation annotation format
-Annotation files have the same name as their corresponding audiofiles with extension `*.csv`. For the validation set single-class (class of interest) annotations are provided, with positive (POS), unkwown (UNK) values. UNK indicates uncertainty about a class and participants can choose to ignore it. 
+Annotation files have the same name as their corresponding audiofiles with extension `*.csv`. For the validation set single-class (class of interest) annotations are provided, with positive (POS), unkwown (UNK) values. UNK indicates uncertainty about a class and participants can choose to ignore it. Each audio file should be treated separately of the rest, as there is possible overlap between the classes of the evaluation set across different audio files.
+
+**Participants must treat the task as a 5-shot setting and only use the first five POS annotations for the class of interest for each file, when trying to predict the rest.**
 
 Example of an annotation file for `audio_val.wav`:
 ```
@@ -155,7 +157,7 @@ Each audio file will be accompanied by an single-class (class of interest) annot
 
 # Task setup
 
-**This few-shot task will run as a 5-shot task.** Hence, five annotated calls from each recording in the evaluation set will be provided to the participants.** Each recording of the evaluation set will have a single class of interest which the participants will then need to detect through the recording. Each recording can have multiple types of calls or species present in it, as well as background noise, however only the label of interest needs to be detected.
+**This few-shot task will run as a 5-shot task.** Hence, five annotated calls from each recording in the evaluation set will be provided to the participants. Each recording of the evaluation set will have a single class of interest which the participants will then need to detect through the recording. Each recording can have multiple types of calls or species present in it, as well as background noise, however only the label of interest needs to be detected.
 
 **During the develpoment period the partcipants are required to treat the validation set in the same way as the evaluation set by using the first five positive (POS) events for their models.* Participants should keep in mind that our evaluation metric ignores anything before the end time of the fifth positive event, hence using randomly selected events from the validation set may lead to incorrect performance values.
 
@@ -183,10 +185,10 @@ For each system, meta information should be provided in a separate file, contain
 We allow up to 4 system output submissions per participant/team. For each system, metadata should be provided in a separate file, containing the task specific information. All files should be packaged into a zip file for submission. Please make a clear connection between the system name in the submitted metadata (the `*.yaml` file), submitted system output (the `*.csv` file), and the technical report. The detailed information regarding the challenge information can be found in the Submission page.
 Finally, for supporting reproducible research, we kindly ask from each participant/team to consider making available the code of their method (e.g. in GitHub) and pre-trained models, after the challenge is over.
 
-**Please note:** automated procedures will be used for the evaluation of the submitted results. Therefore, the column names should be exactly as indicated in the example `*.csv` in the submission zip below.
+**Please note:** automated procedures will be used for the evaluation of the submitted results. Therefore, the column names should be exactly as indicated in the example `*.csv` in the submission zip below and events in each file should be in order of start time.
 
-TODO: Submission example zip
-
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/blob/main/dcase_2021_fewshot_submission_package.zip">Submission zip example</a>
+  
 # Evaluation Metric
 
 We implemented an event-based F-measure, macro-averaged evaluation metric. We use IoU followed by bipartite graph matching. The evalution metric ignores the part of the file that contains the first five positive (POS) events and measure are estimated after the end time of the fitfh positive event for each file. Furthermore, real-world datasets contain a small number of ambiguous or unknown labels marked as UNK in the annotation files provided. This evaluation metrics treats these separately during evaluation, so as not to penalise algorithms that can perform better than a human annotator. **Final ranking of methods will be based on the overall F-measure for the whole of the evaluation set.**
