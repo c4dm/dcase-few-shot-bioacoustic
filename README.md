@@ -192,7 +192,7 @@ TODO: Submission example zip
 
 We implemented an event-based F-measure, macro-averaged evaluation metric. We use IoU followed by bipartite graph matching. The evalution metric ignores the part of the file that contains the first five positive (POS) events and measure are estimated after the end time of the fitfh positive event for each file. Furthermore, real-world datasets contain a small number of ambiguous or unknown labels marked as UNK in the annotation files provided. This evaluation metrics treats these separately during evaluation, so as not to penalise algorithms that can perform better than a human annotator. **Final ranking of methods will be based on the overall F-measure for the whole of the evaluation set.**
 
-<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/evaluation_metrics">### Download the evaluation metrics code</a>.
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/evaluation_metrics">Download the evaluation metrics code</a>.
 
 # Baseline Systems
 
@@ -200,5 +200,5 @@ Two baselines are provided:
 + Spectrogram correlation template matching (common in bioacoustics)
 + Deep learning prototypical network (a good modern approach)
 
-<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/baselines">### Download the baselines code</a>
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/baselines">Download the baselines code</a>
 
