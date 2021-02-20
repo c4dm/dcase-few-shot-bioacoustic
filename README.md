@@ -13,7 +13,6 @@ This is the official repository for Few-shot Bioacoustic Event Detection (Task 5
 + Explicitly labeling a huge dataset can be costly both in time and resources;
 + Fixed ontologies or class labels used in SED and other DCASE tasks are often a poor fit to a given user’s goal.
 
-
 # Development Set
 The development set is pre-split into training and validation sets. The training set consists of four subfolders deriving from a different source each. Along with the audio files multi-class annotations are provided for each. The validation set consists of two sub-folders deriving from a different source each, with a single-class (class of interest) annoation file provided for each audio file. 
 
@@ -192,7 +191,7 @@ TODO: Submission example zip
 
 We implemented an event-based F-measure, macro-averaged evaluation metric. We use IoU followed by bipartite graph matching. The evalution metric ignores the part of the file that contains the first five positive (POS) events and measure are estimated after the end time of the fitfh positive event for each file. Furthermore, real-world datasets contain a small number of ambiguous or unknown labels marked as UNK in the annotation files provided. This evaluation metrics treats these separately during evaluation, so as not to penalise algorithms that can perform better than a human annotator. **Final ranking of methods will be based on the overall F-measure for the whole of the evaluation set.**
 
-<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/evaluation_metrics">Download the evaluation metrics code</a>.
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/evaluation_metrics">Access the evaluation metrics code</a>.
 
 # Baseline Systems
 
@@ -200,5 +199,5 @@ Two baselines are provided:
 + Spectrogram correlation template matching (common in bioacoustics)
 + Deep learning prototypical network (a good modern approach)
 
-<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/baselines">Download the baselines code</a>
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/baselines">Access the baselines code</a>
 
