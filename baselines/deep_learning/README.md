@@ -30,7 +30,7 @@ We randomly sample from the negative class to calculate the negative prototype. 
 
 # Running the code
 
-We use hydra framework (https://hydra.cc/docs/intro/) for configuration management. To run the code:
+We use <a href="https://hydra.cc/docs/intro/">hydra framework</a> for configuration management. To run the code:
 
 Feature Extraction:
 
