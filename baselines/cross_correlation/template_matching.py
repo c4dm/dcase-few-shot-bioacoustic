@@ -7,6 +7,7 @@ import csv
 import pickle
 from skimage.feature import match_template
 from scipy.signal import find_peaks
+import argparse
 
 
 def fewshot_match_template(folder_path='./Development_Set/Validation_Set/', shots=5, output_file='output'):
@@ -131,8 +132,8 @@ def fewshot_match_template(folder_path='./Development_Set/Validation_Set/', shot
                 final_result[np.where(final_result>0)] = 1
 
                 # transforming time frames to seconds in predictions
-                startind = np.where(finalR[:-1] - finalR[1:] == -1)[0]
-                endind = np.where(finalR[:-1] - finalR[1:] == 1)[0]
+                startind = np.where(final_result[:-1] - final_result[1:] == -1)[0]
+                endind = np.where(final_result[:-1] - final_result[1:] == 1)[0]
                 
                 # filling to_write list with predicted results
                 for i in range(len(startind)):
