@@ -36,7 +36,7 @@ train:
   epochs: 100
 
 eval:
-  samples_neg:
+  samples_neg: 100
 
 
 
