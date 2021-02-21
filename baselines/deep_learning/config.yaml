@@ -1,0 +1,42 @@
+set:
+  features: false
+  train: false
+  eval: false
+
+path:
+  root_dir:  /import/research_c4dm/ss380/Bird_Dev_train
+  train_dir: ${path.root_dir}/Training_Set
+  eval_dir:  ${path.root_dir}/Validation_Set
+  feat_path: ${path.root_dir}/Features
+  feat_train: ${path.feat_path}/feat_train
+  feat_eval:  ${path.feat_path}/feat_eval
+  Model: ${path.root_dir}/Model
+  best_model: ${path.Model}/best_model.pth
+  last_model: ${path.Model}/last_model.pth
+
+features:
+  seg_len: 0.200
+  hop_seg: 0.050
+  eps: 2.220446049250313e-16
+  fmax: 11025
+  fmin: 50
+  sr: 22050
+  n_fft: 1024
+  n_mels: 128
+  hop_mel: 256
+  PCEN: False
+train:
+  num_classes: 15
+  n_shot: 5
+  k_way : 2
+  device: cuda
+  lr_rate: 0.0001
+  scheduler_gamma: 0.5
+  scheduler_step_size: 20
+  epochs: 100
+
+eval:
+  samples_neg:
+
+
+
