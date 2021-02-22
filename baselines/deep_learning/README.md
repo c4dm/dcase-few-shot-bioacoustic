@@ -4,7 +4,7 @@ This is the deep learning baseline code for DCASE task 5. Prototypical networks 
 
 # Episodic training
 
-Prototypical networks adopt an episodic training procedure where in each episode, a mini-batch is sampled from the dataset ensuring that each class has an equal representation, post which the a subset of the mini batch is used as the support set to train the model and the remainder data is used as query set. The intention of episodic training is to replicate a few-shot learning task.
+Prototypical networks adopt an episodic training procedure where in each episode, a mini-batch is sampled from the dataset ensuring that each class has an equal representation, post which a subset of the mini batch is used as the support set to train the model and the remaining data is used as query set. The intention of episodic training is to replicate a few-shot learning task.
 
 The positive annotations in the training data are of unequal duration, hence we extract equal length patches from the annotated segments, where each patch inherits the label of its corresponding annotation. The training set is heavily imbalanced in terms of class distribution, hence we balance the dataset using oversampling. 
 
@@ -20,13 +20,13 @@ We randomly sample from the negative class to calculate the negative prototype. 
 
 2) Datagenerator.py: For creating training, validation and evaluation set
 
-3) batch_sample.py : Batch sampler
+3) batch_sample.py: Batch sampler
 
-4) Model.py : Prototypical network
+4) Model.py: Prototypical network
 
-5) util.py : This file contains the prototypical loss function and prototype evaluation function. The evaluation function is used for calculating negative and positive prototypes during evaluation stage, post which onset offset predictions are made. 
+5) util.py: This file contains the prototypical loss function and prototype evaluation function. The evaluation function is used for calculating negative and positive prototypes during evaluation stage, post which onset offset predictions are made. 
 
-6) config.yaml : Consists of all the control parameters from feature extraction and training. 
+6) config.yaml: Consists of all the control parameters from feature extraction and training. 
 
 # Running the code
 
