@@ -20,7 +20,7 @@ We randomly sample from the negative class to calculate the negative prototype. 
 
 2) Datagenerator.py: For creating training, validation and evaluation set
 
-3) batch_sample1.py : Batch sampler
+3) batch_sample.py : Batch sampler
 
 4) Model.py : Prototypical network
 
