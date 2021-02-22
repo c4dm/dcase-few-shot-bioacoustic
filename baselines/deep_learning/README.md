@@ -32,7 +32,7 @@ We randomly sample from the negative class to calculate the negative prototype. 
 
 We use <a href="https://hydra.cc/docs/intro/">hydra framework</a> for configuration management. To run the code:
 
-Feature Extraction:
+### Feature Extraction:
 
 1) We use config.yaml file to store the configuration parameters.
 2) To set the root directory and begin the feature extraction run the following command in terminal:
@@ -43,14 +43,14 @@ e.g. python main.py path.root_dir=/Bird_dev_train set.features=true
 ```
 The training, evaluation, model and feature directories have been set relative to the root directory path. You can choose to set them based on your preference.
 
-Training:
+### Training:
 
 Run the following command 
 
 ```
 python main.py set.train=true
 ```
-Evaluation:
+###Evaluation:
 
 For evaluation, either place the evaluation_metric code in the same folder as the rest of the code or include the path of the evaluation code in the eval section of the config file. Run the following command for evaluation:
 
