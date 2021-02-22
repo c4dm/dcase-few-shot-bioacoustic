@@ -199,7 +199,7 @@ We implemented an event-based F-measure, macro-averaged evaluation metric. We us
 
 Two baselines are provided:
 + Spectrogram correlation template matching (common in bioacoustics)
-+ Deep learning prototypical network (a good modern approach)
++ Deep learning prototypical network (a modern machine-learning approach designed for few-shot scenarios)
 
 <a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/tree/main/baselines">Access the baselines code</a>
 
