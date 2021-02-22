@@ -1,4 +1,4 @@
-# Repo Description
+# Few-shot Bioacoustic Event Detection (DCASE 2021 Task 5) source code
 This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, and the baseline systems, along with a detailed description of the task. 
 
 # Task Description
