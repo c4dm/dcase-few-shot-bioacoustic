@@ -204,3 +204,7 @@ Two baselines are provided:
 
 <div class="brepository-item" data-item="dcase2021-task5-baseline"></div>
 
+# Contact
+
+TODO
+Participants can contact the task organisers via email (g.v.morfi@qmul.ac.uk) or in the slack channel: <a href="">task 5</a>
