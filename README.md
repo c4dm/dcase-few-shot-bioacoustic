@@ -54,7 +54,7 @@ Spotted hyenas are a highly social species that live in "fission-fusion" groups 
 
 ### JD
 
-Jackdaws are corvid songbirds which usually breed, forage and sleep in large groups, but form a pair bond with the same partner for life. They produce thousands of vocalisations per day, but many aspects of their vocal behaviour remained unexplored due to the difficulty in recording and assigning vocalisations to specific individuals, especially in natural settings. In a multi-year field study (Max-Planck-Institute for Ornithology, Seewiesen, Germany), wild jackdaws were equipped with small backpacks containing miniature voice recorders (Edic Mini Tiny A31, TS-Market Ltd., Russia) to investigate the vocal behaviour of individuals interacting normally with their group, and behaving freely in their natural environment. The jackdaw training dataset contains a 10-minute on-bird sound recording (44100 Hz) of one male jackdaw during the breeding season 2015. Field work was conducted by Lisa Gill, Magdalena Pelayo van Buuren and Magdalena Maier. Sound files were annotated by Lisa Gill, based on a previously established video-validation in a captive setting.
+Jackdaws are corvid songbirds which usually breed, forage and sleep in large groups, but form a pair bond with the same partner for life. They produce thousands of vocalisations per day, but many aspects of their vocal behaviour remained unexplored due to the difficulty in recording and assigning vocalisations to specific individuals, especially in natural settings. In a multi-year field study (Max-Planck-Institute for Ornithology, Seewiesen, Germany), wild jackdaws were equipped with small backpacks containing miniature voice recorders (Edic Mini Tiny A31, TS-Market Ltd., Russia) to investigate the vocal behaviour of individuals interacting normally with their group, and behaving freely in their natural environment. The jackdaw training dataset contains a 10-minute on-bird sound recording of one male jackdaw during the breeding season 2015. Field work was conducted by Lisa Gill, Magdalena Pelayo van Buuren and Magdalena Maier. Sound files were annotated by Lisa Gill, based on a previously established video-validation in a captive setting.
 
 | Statistics | Values |
 | --- | --- |
@@ -78,7 +78,7 @@ Meerkats are a highly social mongoose species that live in stable social groups 
 | Sampling rate					|	8,000 Hz |
 
 ### Training annotation format
-Annotation files have the same name as their corresponding audiofiles with extension `*.csv`. For the training set multi-class annotations are provided, with positive (POS), negative (NEG) and unkwown (UNK) values for each class. UNK indicates uncertainty about a class and participants can choose to ignore it. 
+Annotation files have the same name as their corresponding audiofiles with extension `*.csv`. For the training set multi-class annotations are provided, with positive (POS), negative (NEG) and unknown (UNK) values for each class. UNK indicates uncertainty about a class and participants can choose to ignore it. 
 
 Example of an annotation file for `audio.wav`:
 ```
