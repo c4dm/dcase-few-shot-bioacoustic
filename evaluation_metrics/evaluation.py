@@ -13,7 +13,7 @@ import glob
 
 MIN_EVAL_VALUE = 0.00001
 N_SHOTS = 5
-MIN_IOU_TH = 0.5
+MIN_IOU_TH = 0.3
 PRED_FILE_HEADER = ["Audiofilename","Starttime","Endtime"]
 POS_VALUE = 'POS'
 UNK_VALUE = 'UNK'
