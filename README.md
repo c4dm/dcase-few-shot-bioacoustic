@@ -162,7 +162,8 @@ Each audio file will be accompanied by an single-class (class of interest) annot
 **During the develpoment period the partcipants are required to treat the validation set in the same way as the evaluation set by using the first five positive (POS) events for their models.* Participants should keep in mind that our evaluation metric ignores anything before the end time of the fifth positive event, hence using randomly selected events from the validation set may lead to incorrect performance values.
 
 # Task rules
-+ Use of external data (e.g. audio files, annotations) is **allowed only after approval** from the task coordinators (contact: `g.v.morfi@qmul.ac.uk`)
++ Use of external data (e.g. audio files, annotations) is **allowed only after approval** from the task coordinators (contact: `g.v.morfi@qmul.ac.uk`). Typically these
+external datasets should be public, open datasets.
 + Use of pre-trained models is **allowed only after approval** from the task coordinators (contact: `g.v.morfi@qmul.ac.uk`).
 + The development dataset (i.e. training and validation) can be augmented **without** the use of external data.
 + Participants are **not allowed** to make subjective judgments of the evaluation data, nor to annotate it.
