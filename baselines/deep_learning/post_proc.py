@@ -2,9 +2,9 @@ import csv
 import numpy as np
 import os
 
-val_path = '../DCASE_Few_shot/Development_Set/Validation_Set/'
-evaluation_file = './Eval_out.csv'
-new_evaluation_file = './new_eval_out.csv'
+val_path = './Development_Set/Validation_Set/'
+evaluation_file = 'Eval_out.csv'
+new_evaluation_file = 'new_eval_out.csv'
 
 dict_duration = {}
 folders = os.listdir(val_path)
