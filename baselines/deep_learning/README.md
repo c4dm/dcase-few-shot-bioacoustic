@@ -56,3 +56,13 @@ For evaluation, either place the evaluation_metric code in the same folder as th
 
 ```
 python main.py set.eval=true
+```
+
+# Post Processing
+
+After evaluation, post processing is performed on the predicted events. For each audio file, predicted events with shorter duration than the shortest shots provided for that file are removed. 
+Run the following command for post processing on a .csv file:
+
+```
+python post_proc.py -val_path=./Development_Set/Validation_Set/ -evaluation_file=eval_output.csv -new_evaluation_file=new_eval_output.csv
+```
