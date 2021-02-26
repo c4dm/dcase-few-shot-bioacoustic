@@ -199,12 +199,21 @@ We implemented an event-based F-measure, macro-averaged evaluation metric. We us
 # Baseline Systems
 
 Two baselines are provided:
+
 + Spectrogram correlation template matching (common in bioacoustics)
 + Deep learning prototypical network (a modern machine-learning approach designed for few-shot scenarios)
 
 <div class="brepository-item" data-item="dcase2021-task5-baseline"></div>
 
+## Baseline Performance
+
+| System | F-measure | Precision | Recall |
+| --- | --- | --- | --- |
+| Template Matching		|	2.01% | 1.08% | 14.46% |
+| Prototypical Network	|	35.10% | 52.61% | 26.33% |
+
+Sound event detection for few-shot learning is a novel and challenging task, hence this can be reflected in the performance of the models. However, this also leaves room for improvements.
+
 # Contact
 
-TODO
-Participants can contact the task organisers via email (g.v.morfi@qmul.ac.uk) or in the slack channel: <a href="">task 5</a>
+Participants can contact the task organisers via email (g.v.morfi@qmul.ac.uk) or in the slack channel: <a href="https://dcase.slack.com/">task-5-2021</a>
