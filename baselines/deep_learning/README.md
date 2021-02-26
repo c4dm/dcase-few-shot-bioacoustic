@@ -64,8 +64,8 @@ The reported results for the prototypical networks was achieved with the followi
 | Parameter | Value | 
 | --- | --- | 
 | Sampling rate		|	22050 | 
-| n_fft	|	1024 |
-| hop_length	|	256 |
+| n_fft	|	1024 (samples)|
+| hop_length	|	256 (samples) |
 | Segment length	|	0.2s |
 | Hop length for segment	|	0.05s |
 | Feature type	|	PCEN |
