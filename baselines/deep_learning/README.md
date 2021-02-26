@@ -76,7 +76,7 @@ The reported results for the prototypical networks was achieved with the followi
 | Number of iterations	|	5|
 
 + Per channel energy normalisation (PCEN) <a href="https://arxiv.org/abs/1607.05666">Wang el. al</a>. is conducted on mel frequency spectrogram and used as input
-  feature. Raw audio is scaled to the range [-2**31; 2**31-1 ] before mel transformation. PCEN is performed using librosan (default parameters).  
+  feature. Raw audio is scaled to the range [-2**31; 2**31-1 ] before mel transformation. PCEN is performed using librosa (default parameters).  
 + Segment length refers to the equal length patches extracted from the time frequency representation. 
 + N_way - Number of classes used in support set for each episode during training. The configuration for query set is same as support set. 
 + K_shot - Number of samples per class in the support set.
