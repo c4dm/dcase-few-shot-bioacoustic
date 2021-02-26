@@ -212,7 +212,7 @@ Two baselines are provided:
 | Template Matching		|	2.01% | 1.08% | 14.46% |
 | Prototypical Network	|	35.10% | 52.61% | 26.33% |
 
-Sound event detection for few-shot learning is a novel and challenging task, hence this can be reflected in the performance of the models. However, this also leaves room for improvements.
+Sound event detection via few-shot learning is a novel and challenging task, as reflected in the performance of the baseline systems. There is thus lots of scope for improving on these scores, and making a significant contribution to animal monitoring.
 
 # Contact
 
