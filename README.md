@@ -141,6 +141,12 @@ audio_val.wav,1.1,2.2,POS
 audio_val.wav,99.9,100.0,UNK
 ```
 
+# Download
+
+### DCASE 2021 Task 5: Few-shot Bioacoustic Event Detection Development Set
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4543504.svg)](https://doi.org/10.5281/zenodo.4543504)
+
 # Evaluation Set
 
 **The evaluation set will be made available on June 1st 2021.** 
@@ -149,11 +155,6 @@ audio_val.wav,99.9,100.0,UNK
 
 Each audio file will be accompanied by an single-class (class of interest) annotation file that will only contain the first five events of the class, making this a 5-shot problem. Participants will be asked to perform sound event detection for the class of interest for the rest of the audio file. Each audio file should be treated separately of the rest, as there is possible overlap between the classes of the evaluation set across different audio files.
 
-## Download
-
-### DCASE 2021 Task 5: Few-shot Bioacoustic Event Detection Development Set
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4543504.svg)](https://doi.org/10.5281/zenodo.4543504)
 
 # Task setup
 
