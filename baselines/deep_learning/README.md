@@ -84,7 +84,7 @@ The reported results for the prototypical networks was achieved with the followi
 + Number of iterations - Number of iterarations for calculating the final prediction/per audio file. 
 # Post Processing
 
-After evaluation, post processing is performed on the predicted events. For each audio file, predicted events with shorter duration than the shortest shots provided for that file are removed. 
+After predictions are produced, post processing is performed on the events. For each audio file, predicted events with shorter duration than 60% of the duration shortest shot provided for that file are removed. 
 Run the following command for post processing on a .csv file:
 
 ```
