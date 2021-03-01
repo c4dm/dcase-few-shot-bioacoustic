@@ -45,7 +45,7 @@ def post_processing(val_path, evaluation_file, new_evaluation_file, n_shots=5):
     for event in results:
         audiofile = event[0]
         min_dur = dict_duration[audiofile]
-        if float(event[2])-float(event[1]) >= min_dur:
+        if float(event[2])-float(event[1]) >= 0.6*min_dur:
             new_results.append(event)
 
     with open(new_evaluation_file, 'w', newline='') as f:
