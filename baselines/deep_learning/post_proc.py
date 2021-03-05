@@ -5,7 +5,7 @@ import argparse
 
 def post_processing(val_path, evaluation_file, new_evaluation_file, n_shots=5):
     '''Post processing of a prediction file by removing all events that have shorter duration
-    than minimum duration of the shots for that audio file.
+    than 60% of the minimum duration of the shots for that audio file.
     
     Parameters
     ----------
