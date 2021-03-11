@@ -201,8 +201,21 @@ We implemented an event-based F-measure, macro-averaged evaluation metric. We us
 
 Two baselines are provided:
 
-+ Spectrogram correlation template matching (common in bioacoustics)
-+ Deep learning prototypical network (a modern machine-learning approach designed for few-shot scenarios)
++ Template matching with normalized cross-correlation in the spectrogram domain, common in bioacoustics
++ Prototypical networks, a deep learning approach designed for few-shot scenarios
+
+For more details on our template matching baseline, please refer to:
+
+LeBien, J., Zhong, M., Campos-Cerqueira, M., Velev, J. P., Dodhia, R., Ferres, J. L., & Aide, T. M. (2020). A pipeline for identification of bird and frog species in tropical soundscape recordings using a convolutional neural network. Ecological Informatics, 59, 101113.
+
+For more details on prototypical networks, please refer to:
+
+Snell, J., Swersky, K., & Zemel, R. S. (2017). Prototypical networks for few-shot learning. Advances in Neural Information Processing Systems.
+
+Lastly, note that a recent publication has applied prototypical networks to few-shot speech recognition:
+
+Wang, Y., Salamon, J., Bryan, N. J., & Bello, J. P. (2020). Few-shot sound event detection. In Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 81-85.
+
 
 <div class="brepository-item" data-item="dcase2021-task5-baseline"></div>
 
