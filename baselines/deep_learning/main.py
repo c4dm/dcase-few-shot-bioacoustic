@@ -1,4 +1,5 @@
 
+
 import yaml
 import argparse
 import pandas as pd
@@ -25,6 +26,9 @@ import h5py
 
 
 
+def init_seed():
+    torch.manual_seed(0)
+    torch.cuda.manual_seed(0)
 
 
 def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batches_vd):
@@ -37,7 +41,6 @@ def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batch
     -conf: configuration object
     -num_batches_tr: number of training batches
     -num_batches_vd: Number of validation batches
-
     Out:
     -best_val_acc: Best validation accuracy
     -model
@@ -141,6 +144,8 @@ def main(conf : DictConfig):
         if not os.path.isdir(conf.path.Model):
             os.makedirs(conf.path.Model)
 
+        init_seed()
+
 
         gen_train = Datagen(conf)
         X_train,Y_train,X_val,Y_val = gen_train.generate_train()
@@ -164,8 +169,8 @@ def main(conf : DictConfig):
         train_dataset = torch.utils.data.TensorDataset(X_tr,Y_tr)
         valid_dataset = torch.utils.data.TensorDataset(X_val,Y_val)
 
-        train_loader = torch.utils.data.DataLoader(dataset=train_dataset,batch_sampler=samplr_train,num_workers=8,pin_memory=True,shuffle=False)
-        valid_loader = torch.utils.data.DataLoader(dataset=valid_dataset,batch_sampler=samplr_valid,num_workers=8,pin_memory=True,shuffle=False)
+        train_loader = torch.utils.data.DataLoader(dataset=train_dataset,batch_sampler=samplr_train,num_workers=0,pin_memory=True,shuffle=False)
+        valid_loader = torch.utils.data.DataLoader(dataset=valid_dataset,batch_sampler=samplr_valid,num_workers=0,pin_memory=True,shuffle=False)
 
         model = Protonet()
         best_acc,model,best_state = train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batches_vd)
@@ -174,6 +179,8 @@ def main(conf : DictConfig):
     if conf.set.eval:
 
         device = 'cuda'
+
+        init_seed()
 
 
         name_arr = np.array([])
@@ -201,11 +208,5 @@ def main(conf : DictConfig):
         df_out.to_csv(csv_path,index=False)
 
 
-
-
-
-
 if __name__ == '__main__':
      main()
-
-
