@@ -12,7 +12,7 @@ import argparse
 
 def fewshot_match_template(folder_path='./Development_Set/Validation_Set/', shots=5, output_file='output'):
     """Cross-correlation template matching for the validation set of DCASE 2021 task 5: Few-shot Bioacoustic Event Detection.
-    Saves predicted events for class of interest for each audiofile in the validation set, in a scv file.
+    Saves predicted events for class of interest for each audiofile in the validation set, in a csv file.
 
     Parameters
     ----------
