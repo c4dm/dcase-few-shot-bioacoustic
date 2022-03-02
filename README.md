@@ -184,7 +184,7 @@ audio_val.wav,99.9,100.0,UNK
 
 # Download
 
-### DCASE 2021 Task 5: Few-shot Bioacoustic Event Detection Development Set
+### DCASE 2022 Task 5: Few-shot Bioacoustic Event Detection Development Set
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6012310.svg)](https://doi.org/10.5281/zenodo.6012310)
 
