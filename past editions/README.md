@@ -1,5 +1,5 @@
 # Few-shot Bioacoustic Event Detection (DCASE 2021 Task 5) source code
-This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2022). This repository contains the source code to run the evaluation metrics, and the baseline systems, along with a detailed description of the task. 
+This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2021). This repository contains the source code to run the evaluation metrics, and the baseline systems, along with a detailed description of the task. 
 
 # Task Description
 **Few-shot learning is a highly promising paradigm for sound event detection. It is also an extremely good fit to the needs of users in bioacoustics, in which increasingly large acoustic datasets commonly need to be labelled for events of an identified category** (e.g. species or call-type), even though this category might not be known in other datasets or have any yet-known label. While satisfying user needs, this will also benchmark few-shot learning for the wider domain of sound event detection (SED).
@@ -14,31 +14,31 @@ This is the official repository for Few-shot Bioacoustic Event Detection (Task 5
 + Fixed ontologies or class labels used in SED and other DCASE tasks are often a poor fit to a given user’s goal.
 
 # Development Set
-The development set is pre-split into training and validation sets. The training set consists of five subfolders deriving from a different source each. Along with the audio files multi-class annotations are provided for each. The validation set consists of four sub-folders deriving from a different source each, with a single-class (class of interest) annoation file provided for each audio file. 
+The development set is pre-split into training and validation sets. The training set consists of four subfolders deriving from a different source each. Along with the audio files multi-class annotations are provided for each. The validation set consists of two sub-folders deriving from a different source each, with a single-class (class of interest) annoation file provided for each audio file. 
 
 ## Training Set 
-The training set contains five different sub-folders (BV, HV, JD, MT, WMW). Statistics are given overall and specific for each sub-folder. 
+The training set contains four different sub-folders (BV, HV, JD, MT). Statistics are given overall and specific for each sub-folder. 
 
 ### Overall
 
 | Statistics | Values |
 | --- | --- |
-|Number of audio recordings		|	174|
-|Total duration					|	21 hours|
-|Total classes					|	47|
-|Total events					|	14229|
+| Number of audio recordings		|	11 |
+|Total duration					|	14 hours and 20 mins |
+| Total classes (excl. UNK)		|	19 |
+| Total events (excl. UNK)		|	4,686 |
 
 ### BV
 
-The BirdVox-DCASE-10h (BV for short) contains five audio files from four different autonomous recording units, each lasting two hours. These autonomous recording units are all located in Tompkins County, New York, United States. Furthermore, they follow the same hardware specification: the Recording and Observing Bird Identification Node (ROBIN) developed by the Cornell Lab of Ornithology. Andrew Farnsworth, an expert ornithologist, has annotated these recordings for the presence of flight calls from migratory passerines, namely: American sparrows, cardinals, thrushes, and warblers. In total, the annotator found 2,662 positive events from 11 different species. We estimate these flight calls to have a duration of 150 milliseconds and a fundamental frequency between 2 kHz and 10 kHz.
+The BirdVox-DCASE-10h (BV for short) contains five audio files from four different autonomous recording units, each lasting two hours. These autonomous recording units are all located in Tompkins County, New York, United States. Furthermore, they follow the same hardware specification: the Recording and Observing Bird Identification Node (ROBIN) developed by the Cornell Lab of Ornithology. Andrew Farnsworth, an expert ornithologist, has annotated these recordings for the presence of flight calls from migratory passerines, namely: American sparrows, cardinals, thrushes, and warblers. In total, the annotator found 2,662 from 11 different species. We estimate these flight calls to have a duration of 150 milliseconds and a fundamental frequency between 2 kHz and 10 kHz.
 
 | Statistics | Values |
 | --- | --- |
 | Number of audio recordings		|	5 |
 | Total duration					|	10 hours |
-| Total events 					|	9026|
-|Ratio event/duration			|	0.04|
-|Sampling rate					|	24000 Hz |
+| Total classes (excl. UNK)		|	11 |
+| Total events (excl. UNK)		|	2,662 |
+| Sampling rate					|	24,000 Hz |
 
 ### HT
 
@@ -46,11 +46,11 @@ Spotted hyenas are a highly social species that live in "fission-fusion" groups 
 
 | Statistics | Values |
 | --- | --- |
-| Number of audio recordings		|	5 |
-| Total duration					|	5 hours |
-| Total events 					|	611|
-|Ratio event/duration			|	0.05|
-|Sampling rate					|	6000 Hz |
+| Number of audio recordings		|	3 |
+| Total duration					|	3 hours |
+| Total classes (excl. UNK)		|	3 |
+| Total events (excl. UNK)		|	435 |
+| Sampling rate					|	6,000 Hz |
 
 ### JD
 
@@ -60,9 +60,8 @@ Jackdaws are corvid songbirds which usually breed, forage and sleep in large gro
 | --- | --- |
 | Number of audio recordings		|	1 |
 | Total duration					|	10 mins |
-| Total classes 					|	1 |
-| Total events 						|	357 |
-| Ratio event/duration			|	0.06 |
+| Total classes (excl. UNK)		|	1 |
+| Total events (excl. UNK)		|	355 |
 | Sampling rate					|	22,050 Hz |
 
 ### MT
@@ -74,24 +73,9 @@ Meerkats are a highly social mongoose species that live in stable social groups 
 | --- | --- | 
 | Number of audio recordings		|	2 |
 | Total duration					|	1 hour and 10 mins |
-| Total classes 					|	4 |
-| Total events 						|	1294 |
-| Ratio event/duration			|	0.04 |
+| Total classes (excl. UNK)		|	4 |
+| Total events (excl. UNK)		|	1,234 |
 | Sampling rate					|	8,000 Hz |
-
-### WMW
-
-WMW consist on a selection of recordings from the <a href="https://zenodo.org/record/5093173?token=eyJhbGciOiJIUzUxMiIsImV4cCI6MTYzOTc4MTk5OSwiaWF0IjoxNjM3MTY3Nzc3fQ.eyJkYXRhIjp7InJlY2lkIjo1MDkzMTczfSwiaWQiOjE4NDAxLCJybmQiOiI5ZjBjODY3ZCJ9.Jbxn_ia64IvfYAfOvet0IBHoacyvMAasfXUatUSqBKa339Xqeo0Ee5Ccg2Lf8QoGhEjqy5NZ_6D1dQijRT0xVw#.Yh9t5OjP1D9"> Western Mediterranean Wetlands Bird dataset</a>. The recordings are taken from the Xeno-Canto portal. The present selection consists in 161 audio recordings of different lengths that have at least 10 positive events. and have been annotated for 26 different classes of 20 species of birds.
-
-
-| Statistics | Values |
-| --- | --- | 
-| Number of audio recordings		|	161 |
-| Total duration					|	4 hours and 40 mins |
-| Total classes 					|	26 |
-| Total events 						|	2941 |
-| Ratio event/duration			|	0.24 |
-| Sampling rate					|	various |
 
 ### Training annotation format
 Annotation files have the same name as their corresponding audiofiles with extension `*.csv`. For the training set multi-class annotations are provided, with positive (POS), negative (NEG) and unknown (UNK) values for each class. UNK indicates uncertainty about a class and participants can choose to ignore it. 
@@ -107,8 +91,7 @@ audio.wav,99.9,100.0,UNK,UNK,...,NEG
 ```
 
 ## Validation Set
-The validation set comprises of four sub-folders (HB, PB, ME, ML). Specific information about the source of the recordings and target classes should not be used to help development of the submitted systems, since the corresponding info for the Evaluation set is not going to be provided for the participants for the duration of the challenge.
-Participants should treat the validation set in a similar way to the evaluation set.
+The validation set comprises of two sub-folders (HV, PB). Specific information about the source of the recordings are not provided for the participants for the duration of the challenge, as to make information available for the validation set as similar to the evaluation set (once that is also published). More information about both will be made available after the end of the challenge.
 
 **There is no overlap between the training set and validation set classes.** 
 
@@ -117,22 +100,21 @@ Participants should treat the validation set in a similar way to the evaluation 
 
 | Statistics | Values |
 | --- | --- |
-| Number of audio recordings		|	35 |
-| Total duration					|	6 hours and 17 minutes |
-| Total classes 					|	22 |
-| Total events 						|	2007 |
+| Number of audio recordings		|	8 |
+| Total duration					|	5 hours |
+| Total classes (excl. UNK)		|	4 |
+| Total events (excl. UNK)		|	310 |
 
 
-### HB
+### HV
 
 | Statistics | Values |
 | --- | --- |
-| Number of audio recordings		|	10 |
-| Total duration					|	2 hours and 38 minutes |
-| Total classes 					|	1 |
-| Total events 						|	607 |
-|Ratio event/duration			|	0.7 |
-| Sampling rate					|	44100 Hz |
+| Number of audio recordings		|	2 |
+| Total duration					|	2 hours |
+| Total classes (excl. UNK)		|	2 |
+| Total events (excl. UNK)		|	50 |
+| Sampling rate					|	6,000 Hz |
 
 ### PB
 
@@ -140,32 +122,9 @@ Participants should treat the validation set in a similar way to the evaluation 
 | --- | --- |
 | Number of audio recordings		|	6 |
 | Total duration					|	3 hours |
-| Total classes 	|	2 |
-| Total events 		|	292 |
-| Ratio event/duration			|	0.003|
-| Sampling rate					|	44100 Hz |
-
-### ME
-
-| Statistics | Values |
-| --- | --- |
-| Number of audio recordings		|	2 |
-| Total duration					|	20 minutes |
-| Total classes 	|	2 |
-| Total events 	|	73 |
-| Ratio event/duration			|	0.01|
-| Sampling rate					|	48000 Hz |
-
-### ML
-
-| Statistics | Values |
-| --- | --- |
-| Number of audio recordings		|	17 |
-| Total duration					|	20 minutes |
-| Total classes 					|	17 |
-| Total events 					|	1035 |
-| Ratio event/duration			|	0.18|
-| Sampling rate					|	44100 Hz |
+| Total classes (excl. UNK)		|	2 |
+| Total events (excl. UNK)		|	260 |
+| Sampling rate					|	44,100 Hz |
 
 ### Validation annotation format
 Annotation files have the same name as their corresponding audiofiles with extension `*.csv`. For the validation set single-class (class of interest) annotations are provided, with positive (POS), unkwown (UNK) values. UNK indicates uncertainty about a class and participants can choose to ignore it. Each audio file should be treated separately of the rest, as there is possible overlap between the classes of the evaluation set across different audio files.
@@ -186,11 +145,11 @@ audio_val.wav,99.9,100.0,UNK
 
 ### DCASE 2021 Task 5: Few-shot Bioacoustic Event Detection Development Set
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6012310.svg)](https://doi.org/10.5281/zenodo.6012310)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4543504.svg)](https://doi.org/10.5281/zenodo.4543504)
 
 # Evaluation Set
 
-**The evaluation set will be made available on June 1st 2022.** 
+**The evaluation set will be made available on June 1st 2021.** 
 
 **There is no overlap between the development set and evaluation set classes.** 
 
@@ -204,14 +163,14 @@ Each audio file will be accompanied by an single-class (class of interest) annot
 **During the develpoment period the partcipants are required to treat the validation set in the same way as the evaluation set by using the first five positive (POS) events for their models.** Participants should keep in mind that our evaluation metric ignores anything before the end time of the fifth positive event, hence using randomly selected events from the validation set may lead to incorrect performance values.
 
 # Task rules
-+ Use of external data (e.g. audio files, annotations) is **allowed only after approval** from the task coordinators (contact: `i.dealmeidanolasco@qmul.ac.uk`). Typically these
++ Use of external data (e.g. audio files, annotations) is **allowed only after approval** from the task coordinators (contact: `g.v.morfi@qmul.ac.uk`). Typically these
 external datasets should be public, open datasets.
-+ Use of pre-trained models is **allowed only after approval** from the task coordinators (contact: `i.dealmeidanolasco@qmul.ac.uk`).
++ Use of pre-trained models is **allowed only after approval** from the task coordinators (contact: `g.v.morfi@qmul.ac.uk`).
 + The development dataset (i.e. training and validation) can be augmented **without** the use of external data.
 + Participants are **not allowed** to make subjective judgments of the evaluation data, nor to annotate it.
 + Participants are **not allowed** to use extra annotations for the provided data.
 + Participants are **only allowed to use the first five positive (POS) annotations from each validation set annotation file** and use the rest for evaluation of their method.
-+ Participants **must treat each file in the validation set independently** of the others (e.g. for prototypical networks do not save prototypes between audio files). This is due to the fact that there is possible overlap between them inside the validation set.
++ Participants **must treat each file in the validation set independently** of the others (e.g. for prototypical networks do not save prototypes between audio files). This is due to the fact that the classes of the validation set are hidden and there is possible overlap between them inside the validation set.
 
 # Submission
 
@@ -226,11 +185,11 @@ System output should be presented as a **single** text-file (in CSV format, with
 For each system, meta information should be provided in a separate file, containing the task-specific information. This meta information enables fast processing of the submissions and analysis of submitted systems. Participants are advised to fill the meta information carefully while making sure all information is correctly provided.
 
 We allow up to 4 system output submissions per participant/team. For each system, metadata should be provided in a separate file, containing the task specific information. All files should be packaged into a zip file for submission. Please make a clear connection between the system name in the submitted metadata (the `*.yaml` file), submitted system output (the `*.csv` file), and the technical report. The detailed information regarding the challenge information can be found in the Submission page.
-Finally, for supporting reproducible research, we kindly ask from each participant/team to consider making available the code of their method (e.g. in GitHub) and pre-trained models.
+Finally, for supporting reproducible research, we kindly ask from each participant/team to consider making available the code of their method (e.g. in GitHub) and pre-trained models, after the challenge is over.
 
 **Please note:** automated procedures will be used for the evaluation of the submitted results. Therefore, the column names should be exactly as indicated in the example `*.csv` in the submission zip below and events in each file should be in order of start time.
 
-<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/blob/main/dcase_2022_fewshot_submission_package.zip">Submission zip example</a>
+<a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/blob/main/dcase_2021_fewshot_submission_package.zip">Submission zip example</a>
   
 # Evaluation Metric
 
@@ -258,17 +217,17 @@ Lastly, note that a recent publication has applied prototypical networks to few-
 Wang, Y., Salamon, J., Bryan, N. J., & Bello, J. P. (2020). Few-shot sound event detection. In Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 81-85.
 
 
-<!-- <div class="brepository-item" data-item="dcase2021-task5-baseline"></div>
+<div class="brepository-item" data-item="dcase2021-task5-baseline"></div>
 
 ## Baseline Performance
 
 | System | F-measure | Precision | Recall |
 | --- | --- | --- | --- |
 | Template Matching		|	2.01% | 1.08% | 14.46% |
-| Prototypical Network	|	35.10% | 52.61% | 26.33% | -->
+| Prototypical Network	|	35.10% | 52.61% | 26.33% |
 
 Sound event detection via few-shot learning is a novel and challenging task, as reflected in the performance of the baseline systems. There is thus lots of scope for improving on these scores, and making a significant contribution to animal monitoring.
 
 # Contact
 
-Participants can contact the task organisers via email (i.dealmeidanolasco@qmul.ac.uk) or in the slack channel: <a href="https://dcase.slack.com/">task-5-2021</a>
+Participants can contact the task organisers via email (g.v.morfi@qmul.ac.uk) or in the slack channel: <a href="https://dcase.slack.com/">task-5-2021</a>
