@@ -81,7 +81,7 @@ Meerkats are a highly social mongoose species that live in stable social groups 
 
 ### WMW
 
-WMW consist on a selection of recordings from the <a href="https://zenodo.org/record/5093173?token=eyJhbGciOiJIUzUxMiIsImV4cCI6MTYzOTc4MTk5OSwiaWF0IjoxNjM3MTY3Nzc3fQ.eyJkYXRhIjp7InJlY2lkIjo1MDkzMTczfSwiaWQiOjE4NDAxLCJybmQiOiI5ZjBjODY3ZCJ9.Jbxn_ia64IvfYAfOvet0IBHoacyvMAasfXUatUSqBKa339Xqeo0Ee5Ccg2Lf8QoGhEjqy5NZ_6D1dQijRT0xVw#.Yh9t5OjP1D9"> Western Mediterranean Wetlands Bird dataset</a>. The recordings are taken from the Xeno-Canto portal. The present selection consists in 161 audio recordings of different lengths that have at least 10 positive events. and have been annotated for 26 different classes of 20 species of birds.
+WMW consist on a selection of recordings from the <a href="https://zenodo.org/record/5093173?token=eyJhbGciOiJIUzUxMiIsImV4cCI6MTYzOTc4MTk5OSwiaWF0IjoxNjM3MTY3Nzc3fQ.eyJkYXRhIjp7InJlY2lkIjo1MDkzMTczfSwiaWQiOjE4NDAxLCJybmQiOiI5ZjBjODY3ZCJ9.Jbxn_ia64IvfYAfOvet0IBHoacyvMAasfXUatUSqBKa339Xqeo0Ee5Ccg2Lf8QoGhEjqy5NZ_6D1dQijRT0xVw#.Yh9t5OjP1D9"> Western Mediterranean Wetlands Bird dataset</a>. The recordings are taken from the Xeno-Canto portal. The present selection consists in 161 audio recordings of different lengths that have at least 10 positive events. These have been annotated for 26 different classes of 20 species of birds.
 
 
 | Statistics | Values |
