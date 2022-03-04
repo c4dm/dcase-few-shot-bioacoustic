@@ -258,14 +258,14 @@ Lastly, note that a recent publication has applied prototypical networks to few-
 Wang, Y., Salamon, J., Bryan, N. J., & Bello, J. P. (2020). Few-shot sound event detection. In Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 81-85.
 
 
-<!-- <div class="brepository-item" data-item="dcase2021-task5-baseline"></div>
+<div class="brepository-item" data-item="dcase2021-task5-baseline"></div>
 
 ## Baseline Performance
 
 | System | F-measure | Precision | Recall |
 | --- | --- | --- | --- |
-| Template Matching		|	2.01% | 1.08% | 14.46% |
-| Prototypical Network	|	35.10% | 52.61% | 26.33% | -->
+| Template Matching		|	4.28% | 2.42% | 18.32% |
+<!-- | Prototypical Network	|	35.10% | 52.61% | 26.33% |  -->
 
 Sound event detection via few-shot learning is a novel and challenging task, as reflected in the performance of the baseline systems. There is thus lots of scope for improving on these scores, and making a significant contribution to animal monitoring.
 
