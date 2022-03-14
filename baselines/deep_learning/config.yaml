@@ -1,12 +1,12 @@
 set:
   features: false
   train: false
-  eval: false
+  eval: true
 
 path:
   root_dir:  /import/research_c4dm/ss380/Bird_Dev_train
-  train_dir: ${path.root_dir}/Training_Set
-  eval_dir:  ${path.root_dir}/Validation_Set
+  train_dir: /import/c4dm-datasets/DCASE_FSBioSED_task_22/Development_Set/Training_Set
+  eval_dir:  /import/c4dm-datasets/DCASE_FSBioSED_task_22/Development_Set/Validation_Set
   feat_path: ${path.root_dir}/Features
   feat_train: ${path.feat_path}/feat_train
   feat_eval:  ${path.feat_path}/feat_eval
@@ -16,7 +16,7 @@ path:
 
 features:
   seg_len: 0.200
-  hop_seg: 0.050
+  hop_seg: 0.100
   eps: 2.220446049250313e-16
   fmax: 11025
   fmin: 50
@@ -24,21 +24,24 @@ features:
   n_fft: 1024
   n_mels: 128
   hop_mel: 256
+  
 train:
   num_classes: 15
   n_shot: 5
-  k_way : 10
+  k_way : 5
   device: cuda
-  lr_rate: 0.0001
+  lr_rate: 0.001
   scheduler_gamma: 0.5
   scheduler_step_size: 10
-  epochs: 15
-
+  epochs: 50
+  num_episodes: 2000
+  encoder: Resnet  # Protonet or Resnet
 eval:
   samples_neg: 650
-  iterations: 3
+  iterations: 10
   query_batch_size: 8
   negative_set_batch_size : 16
+  threshold: 0.45
 
 
 
