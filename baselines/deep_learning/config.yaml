@@ -37,7 +37,7 @@ train:
   num_episodes: 2000
   encoder: Resnet  # Protonet or Resnet
 eval:
-  samples_neg: 650
+  samples_neg: 50
   iterations: 10
   query_batch_size: 8
   negative_set_batch_size : 16
