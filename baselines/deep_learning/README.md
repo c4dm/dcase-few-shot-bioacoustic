@@ -84,9 +84,9 @@ The reported results for the prototypical networks was achieved with the followi
 + Number of iterations - Number of iterarations for calculating the final prediction/per audio file. 
 # Post Processing
 
-After predictions are produced, post processing is performed on the events. For each audio file, predicted events with shorter duration than 60% of the duration shortest shot provided for that file are removed. 
+After predictions are produced, post processing is performed on the events. For each audio file,  There are two post processing methodologies - adaptive and fixed. In adaptive predicted events with shorter duration than 60% of the duration shortest shot provided for that file are removed. In fixed, any event less than 200 ms are removed. Code for adaptive post processing is in post_proc.py and code for fixed is in post_proc_new.py. The results on the DCASE page are from post_proc_new.py.
 Run the following command for post processing on a .csv file:
 
 ```
-python post_proc.py -val_path=./Development_Set/Validation_Set/ -evaluation_file=eval_output.csv -new_evaluation_file=new_eval_output.csv
+python post_proc_new.py -val_path=./Development_Set/Validation_Set/ -evaluation_file=eval_output.csv -new_evaluation_file=new_eval_output.csv
 ```
