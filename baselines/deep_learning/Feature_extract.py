@@ -105,7 +105,7 @@ class Feature_Extractor():
            self.hop = conf.features.hop_mel
            self.n_mels = conf.features.n_mels
            self.fmax = conf.features.fmax
-           
+           #self.win_length = conf.features.win_length
        def extract_feature(self,audio):
 
            mel_spec = librosa.feature.melspectrogram(audio,sr=self.sr, n_fft=self.n_fft,
@@ -186,6 +186,7 @@ def feature_transform(conf=None,mode=None):
         all_csv_files = [file
                          for path_dir, subdir, files in os.walk(meta_path)
                          for file in glob(os.path.join(path_dir, extension))]
+        all_csv_files = all_csv_files[:100]
         hdf_tr = os.path.join(conf.path.feat_train,'Mel_train.h5')
         hf = h5py.File(hdf_tr,'w')
         hf.create_dataset('features', shape=(0, seg_len, conf.features.n_mels),
@@ -240,16 +241,7 @@ def feature_transform(conf=None,mode=None):
             feat_info = []
             hdf_eval = os.path.join(conf.path.feat_eval,feat_name)
             hf = h5py.File(hdf_eval,'w')
-            hf.create_dataset('feat_pos', shape=(0, seg_len, conf.features.n_mels),
-                              maxshape= (None, seg_len, conf.features.n_mels))
-            hf.create_dataset('feat_query',shape=(0,seg_len,conf.features.n_mels),maxshape=(None,seg_len,conf.features.n_mels))
-            hf.create_dataset('feat_neg',shape=(0,seg_len,conf.features.n_mels),maxshape=(None,seg_len,conf.features.n_mels))
-            hf.create_dataset('start_index_query',shape=(1,),maxshape=(None))
-
-            'In case you want to use the statistics of each file to normalize'
-
-            hf.create_dataset('mean_global',shape=(1,), maxshape=(None))
-            hf.create_dataset('std_dev_global',shape=(1,), maxshape=(None))
+            
 
             df_eval = pd.read_csv(file, header=0, index_col=False)
             Q_list = df_eval['Q'].to_numpy()
@@ -258,11 +250,44 @@ def feature_transform(conf=None,mode=None):
 
             index_sup = np.where(Q_list == 'POS')[0][:conf.train.n_shot]
 
+            difference = []
+            for index in index_sup:
+                difference.append(end_time[index] - start_time[index])
+            
+            # Adaptive segment length based on the audio file. 
+            max_len = max(difference)
+            
+            # Choosing the segment length based on the maximum size in the 5-shot.
+            # Logic was based on fitment on 12GB GPU since some segments are quite long. 
+            if max_len < 100:
+
+                seg_len = max_len
+            elif max_len > 100 and max_len < 500 :
+                seg_len = max_len//4
+            else:
+                seg_len = max_len//8
+                
+
+            
+            print(f"Segment length for file is {seg_len}")
+            hop_seg = seg_len//2
+
+            hf.create_dataset('feat_pos', shape=(0, seg_len, conf.features.n_mels),
+                              maxshape= (None, seg_len, conf.features.n_mels))
+            hf.create_dataset('feat_query',shape=(0,seg_len,conf.features.n_mels),maxshape=(None,seg_len,conf.features.n_mels))
+            hf.create_dataset('feat_neg',shape=(0,seg_len,conf.features.n_mels),maxshape=(None,seg_len,conf.features.n_mels))
+            hf.create_dataset('start_index_query',shape=(1,),maxshape=(None))
+
+            
+
+            
+            hf.create_dataset('seg_len',shape=(1,), maxshape=(None))
+            hf.create_dataset('hop_seg',shape=(1,), maxshape=(None))
             pcen = extract_feature(audio_path, pcen_extractor,conf)
             mean = np.mean(pcen)
             std = np.mean(pcen)
-            hf['mean_global'][:] = mean
-            hf['std_dev_global'][:] = std
+            hf['seg_len'][:] = seg_len
+            hf['hop_seg'][:] = hop_seg
 
             strt_indx_query = end_time[index_sup[-1]]
             end_idx_neg = pcen.shape[0] - 1
@@ -342,12 +367,3 @@ def feature_transform(conf=None,mode=None):
             hf.close()
 
         return num_extract_eval
-
-
-
-
-
-
-
-
-
