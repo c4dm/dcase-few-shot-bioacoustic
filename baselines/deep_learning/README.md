@@ -57,6 +57,8 @@ For evaluation, either place the evaluation_metric code in the same folder as th
 ```
 python main.py set.eval=true
 ```
+
+
 ### Configuration for baseline results:
 
 The reported results for the prototypical networks was achieved with the following configuration 
@@ -91,20 +93,65 @@ Run the following command for post processing on a .csv file:
 python post_proc_new.py -val_path=./Development_Set/Validation_Set/ -evaluation_file=eval_output.csv -new_evaluation_file=new_eval_output.csv
 ```
 
-### Config parameters:
+## Config parameters
 
-#set
+The description was adapted from https://github.com/xdurch0/DCASE2021-Task5
 
-| Parameter | Value | 
-| --- | --- | 
-| Sampling rate		|	22050 | 
-| n_fft	|	1024 (samples)|
-| hop_length	|	256 (samples) |
-| Segment length	|	0.2s |
-| Hop length for segment	|	0.05s |
-| Feature type	|	PCEN |
-| N_way	|	10|
-| K_shot	|	5|
-| Training episodes	|12000|
-| Number of samples for negative prototype	|	650|
-| Number of iterations	|	5|
+### set
+| Parameter | What does it do |
+| ---- | ----- |
+| features | If true, extract features.
+| train | If true, train models.
+| eval | If true, evaluate trained models based on previously extracted probabilities.
+
+### path
+| Parameter | What does it do |
+| ---- | ----- |
+| root_dir | Convenience path to directory so that other paths can be relative.
+| train_dir | Path to the training data.
+| eval_dir | Path to the validation data.
+| feat_path | Directory where features will be extracted to (or are assumed to be found in).
+| feat_train | Directory with training features.
+| feat_eval | Directory with validation features.
+| model | Directory where trained models are stored.
+| best_model | Base name to use for best result of a single training run.
+| last_model | Base name to use for the final result of a single training run.
+
+
+### features
+| Parameter | What does it do |
+| ---- | ----- |
+| seg_len | Length of a data "segment", in seconds. 
+| hop_seg | Hop size between consecutive segments. 
+| eps | PCEN argument. In case of trainable PCEN, serves as the initial value.
+| fmax | Maximum frequency to use for time-frequency representation. 
+| fmin | Minimum frequency to use for time-frequency representation. 
+| sr | Sampling rate to use for the data. All data is resampled to this rate.
+| n_fft | Window size for STFT.
+| n_mels | Number of mel frequency bins to use.
+| hop_mel | Hop size for the STFT extraction.
+
+
+### train
+| Parameter | What does it do |
+| ---- | ----- |
+| n_shot | Size of support set per class per episode.
+| n_query | Size of query set per class per episode.
+| k_way | How many classes to use per episode. Classes are randomly chosen each iteration; remaining data is discarded. 
+| lr | Initial learning rate for `Adam`.
+| scheduler_gamma | Multiplication factor for learning rate decrease.
+| patience | How many epochs to wait with no validation improvement before reducing learning rate. 3 times this value is used for early stopping.
+| epochs | Maximum number of epochs to train.
+| num_episodes | Total number of episodes in one epoch. If none then calculate based on the length of training and validation set. 
+| encoder | The model to be used. Either classical Protonet or Resnet model. 
+
+
+
+### eval
+| Parameter | What does it do |
+| ---- | ----- |
+| samples_neg | How many samples to use for the negative prototype.
+| iterations | How many iterations to average the predictions over.
+| query_batch_size | The batch size for query set. 
+| negative_batch_size | Batch size for forming the negative prototype. 
+| threshold | Fixed threshold value.
