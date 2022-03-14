@@ -59,31 +59,16 @@ python main.py set.eval=true
 ```
 
 
-### Configuration for baseline results:
+### Important points:
 
-The reported results for the prototypical networks was achieved with the following configuration 
-
-| Parameter | Value | 
-| --- | --- | 
-| Sampling rate		|	22050 | 
-| n_fft	|	1024 (samples)|
-| hop_length	|	256 (samples) |
-| Segment length	|	0.2s |
-| Hop length for segment	|	0.05s |
-| Feature type	|	PCEN |
-| N_way	|	10|
-| K_shot	|	5|
-| Training episodes	|12000|
-| Number of samples for negative prototype	|	650|
-| Number of iterations	|	5|
 
 + Per channel energy normalisation (PCEN) <a href="https://arxiv.org/abs/1607.05666">Wang el. al</a>. is conducted on mel frequency spectrogram and used as input
   feature. Raw audio is scaled to the range [-2**31; 2**31-1 ] before mel transformation. PCEN is performed using librosa (default parameters).  
-+ Segment length refers to the equal length patches extracted from the time frequency representation. 
-+ N_way - Number of classes used in support set for each episode during training. The configuration for query set is same as support set. 
-+ K_shot - Number of samples per class in the support set.
-+ Number of samples for negative prototype - The number of random samples selected from the entire audio file to calculate the negative prototype.
-+ Number of iterations - Number of iterarations for calculating the final prediction/per audio file. 
++ Segment length refers to the equal length patches extracted from the time frequency representation. This is kept fixed for training set, however for evaluation
+  set, the segment legnths are selected based on the max length from 5 shots. This was done because the events are of varying lengths across different audio files 
+  and using a fixed length segments does not work well. 
++ We have used a 9 layer Resnet model instead of the classi prototypical networks model ( 4 convolution layers). 
+
 # Post Processing
 
 After predictions are produced, post processing is performed on the events. For each audio file,  There are two post processing methodologies - adaptive and fixed. In adaptive predicted events with shorter duration than 60% of the duration shortest shot provided for that file are removed. In fixed, any event less than 200 ms are removed. Code for adaptive post processing is in post_proc.py and code for fixed is in post_proc_new.py. The results on the DCASE page are from post_proc_new.py.
