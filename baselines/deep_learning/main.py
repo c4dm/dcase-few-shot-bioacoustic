@@ -1,5 +1,3 @@
-
-
 import yaml
 import argparse
 import pandas as pd
@@ -8,11 +6,10 @@ import os
 import pandas as pd
 from Feature_extract import feature_transform
 from Datagenerator import Datagen
-#from Datagen_1 import Datagen_train
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
-from Model import Protonet
+from Model import ProtoNet,ResNet
 from tqdm import tqdm
 from collections import Counter
 from batch_sampler import EpisodicBatchSampler
@@ -26,12 +23,13 @@ import h5py
 
 
 
+
 def init_seed():
     torch.manual_seed(0)
     torch.cuda.manual_seed(0)
 
 
-def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batches_vd):
+def train_protonet(encoder,train_loader,valid_loader,conf,num_batches_tr,num_batches_vd):
 
     '''Model training
     Args:
@@ -51,8 +49,9 @@ def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batch
         device = torch.device('cuda')
     else:
         device = torch.device('cpu')
-
-    optim = torch.optim.Adam(model.parameters(), lr=conf.train.lr_rate)
+    
+    
+    optim = torch.optim.Adam([{'params':encoder.parameters()}] ,lr=conf.train.lr_rate)
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer=optim, gamma=conf.train.scheduler_gamma,
                                                    step_size=conf.train.scheduler_step_size)
     num_epochs = conf.train.epochs
@@ -64,7 +63,8 @@ def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batch
     train_acc = []
     val_acc = []
     best_val_acc = 0.0
-    model.to(device)
+    encoder.to(device)
+    
 
     for epoch in range(num_epochs):
 
@@ -72,11 +72,12 @@ def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batch
         train_iterator = iter(train_loader)
         for batch in tqdm(train_iterator):
             optim.zero_grad()
-            model.train()
+            encoder.train()
+            
             x, y = batch
             x = x.to(device)
             y = y.to(device)
-            x_out = model(x)
+            x_out = encoder(x)
             tr_loss,tr_acc = loss_fn(x_out,y,conf.train.n_shot)
             train_loss.append(tr_loss.item())
             train_acc.append(tr_acc.item())
@@ -88,13 +89,14 @@ def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batch
         avg_acc_tr = np.mean(train_acc[-num_batches_tr:])
         print('Average train loss: {}  Average training accuracy: {}'.format(avg_loss_tr,avg_acc_tr))
         lr_scheduler.step()
-        model.eval()
+        encoder.eval()
+        
         val_iterator = iter(valid_loader)
 
         for batch in tqdm(val_iterator):
             x,y = batch
             x = x.to(device)
-            x_val = model(x)
+            x_val = encoder(x)
             valid_loss, valid_acc = loss_fn(x_val, y, conf.train.n_shot)
             val_loss.append(valid_loss.item())
             val_acc.append(valid_acc.item())
@@ -105,11 +107,11 @@ def train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batch
         if avg_acc_vd > best_val_acc:
             print("Saving the best model with valdation accuracy {}".format(avg_acc_vd))
             best_val_acc = avg_acc_vd
-            best_state = model.state_dict()
-            torch.save(model.state_dict(),best_model_path)
-    torch.save(model.state_dict(),last_model_path)
+            #best_state = model.state_dict()
+            torch.save({'encoder':encoder.state_dict()},best_model_path)
+    torch.save({'encoder':encoder.state_dict()},last_model_path)
 
-    return best_val_acc,model,best_state
+    return best_val_acc,encoder
 
 
 
@@ -158,13 +160,24 @@ def main(conf : DictConfig):
 
         batch_size_tr = samples_per_cls * conf.train.k_way
         batch_size_vd = batch_size_tr
+        
+        if conf.train.num_episodes is not None:
 
-        num_batches_tr = len(Y_train)//batch_size_tr
-        num_batches_vd = len(Y_val)//batch_size_vd
+            num_episodes_tr = conf.train.num_episodes
+            num_episodes_vd = conf.train.num_episodes
 
+        else:
 
-        samplr_train = EpisodicBatchSampler(Y_train,num_batches_tr,conf.train.k_way,samples_per_cls)
-        samplr_valid = EpisodicBatchSampler(Y_val,num_batches_vd,conf.train.k_way,samples_per_cls)
+            num_episodes_tr = len(Y_train)//batch_size_tr
+            num_episodes_vd = len(Y_val)//batch_size_vd
+
+        
+        
+        
+        
+
+        samplr_train = EpisodicBatchSampler(Y_train,num_episodes_tr,conf.train.k_way,samples_per_cls)
+        samplr_valid = EpisodicBatchSampler(Y_val,num_episodes_vd,conf.train.k_way,samples_per_cls)
 
         train_dataset = torch.utils.data.TensorDataset(X_tr,Y_tr)
         valid_dataset = torch.utils.data.TensorDataset(X_val,Y_val)
@@ -172,8 +185,13 @@ def main(conf : DictConfig):
         train_loader = torch.utils.data.DataLoader(dataset=train_dataset,batch_sampler=samplr_train,num_workers=0,pin_memory=True,shuffle=False)
         valid_loader = torch.utils.data.DataLoader(dataset=valid_dataset,batch_sampler=samplr_valid,num_workers=0,pin_memory=True,shuffle=False)
 
-        model = Protonet()
-        best_acc,model,best_state = train_protonet(model,train_loader,valid_loader,conf,num_batches_tr,num_batches_vd)
+        if conf.train.encoder == 'Resnet':
+            encoder  = ResNet()
+        else:
+            encoder = ProtoNet()
+
+        
+        best_acc,model,best_state = train_protonet(encoder,train_loader,valid_loader,conf,num_episodes_tr,num_episodes_vd)
         print("Best accuracy of the model on training set is {}".format(best_acc))
 
     if conf.set.eval:
@@ -196,6 +214,8 @@ def main(conf : DictConfig):
 
             hdf_eval = h5py.File(feat_file,'r')
             strt_index_query =  hdf_eval['start_index_query'][:][0]
+            
+            
             onset,offset = evaluate_prototypes(conf,hdf_eval,device,strt_index_query)
 
             name = np.repeat(audio_name,len(onset))
