@@ -90,3 +90,21 @@ Run the following command for post processing on a .csv file:
 ```
 python post_proc_new.py -val_path=./Development_Set/Validation_Set/ -evaluation_file=eval_output.csv -new_evaluation_file=new_eval_output.csv
 ```
+
+### Config parameters:
+
+#set
+
+| Parameter | Value | 
+| --- | --- | 
+| Sampling rate		|	22050 | 
+| n_fft	|	1024 (samples)|
+| hop_length	|	256 (samples) |
+| Segment length	|	0.2s |
+| Hop length for segment	|	0.05s |
+| Feature type	|	PCEN |
+| N_way	|	10|
+| K_shot	|	5|
+| Training episodes	|12000|
+| Number of samples for negative prototype	|	650|
+| Number of iterations	|	5|
