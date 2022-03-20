@@ -9,7 +9,7 @@ from batch_sampler import EpisodicBatchSampler
 from tqdm import tqdm
 from scipy.ndimage.filters import maximum_filter1d, minimum_filter
 from torch.autograd import Variable
-from Deepset import DeepSetsFunc
+
 
 
 
@@ -245,3 +245,4 @@ def evaluate_prototypes(conf=None,hdf_eval=None,device= None,strt_index_query=No
 
     assert len(onset) == len(offset)
     return onset, offset
+
