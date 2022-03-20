@@ -140,7 +140,7 @@ class Datagen_test(Datagen):
         self.x_pos = hf['feat_pos'][:]
         self.x_neg = hf['feat_neg'][:]
         self.x_query = hf['feat_query'][:]
-
+        self.hop_seg = hf['hop_seg'][:]
     def generate_eval(self):
 
         '''Returns normalizedtest features
@@ -158,8 +158,7 @@ class Datagen_test(Datagen):
         X_neg = self.feature_scale(X_neg)
         X_query = self.feature_scale(X_query)
 
-        return X_pos, X_neg, X_query
-
+        return X_pos, X_neg, X_query,self.hop_seg
 
 
 
