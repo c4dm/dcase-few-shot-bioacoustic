@@ -135,7 +135,7 @@ def evaluate_prototypes(conf=None,hdf_eval=None,device= None,strt_index_query=No
      - onset: Onset array predicted by the model
      - offset: Offset array predicted by the model
       """
-    hop_seg = int(conf.features.hop_seg * conf.features.sr // conf.features.hop_mel)
+    
 
     gen_eval = Datagen_test(hdf_eval,conf)
     X_pos, X_neg,X_query,hop_seg = gen_eval.generate_eval()
