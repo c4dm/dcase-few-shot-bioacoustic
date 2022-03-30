@@ -271,4 +271,4 @@ Sound event detection via few-shot learning is a novel and challenging task, as 
 
 # Contact
 
-Participants can contact the task organisers via email (i.dealmeidanolasco@qmul.ac.uk) or in the slack channel: <a href="https://dcase.slack.com/">task-5-2021</a>
+Participants can contact the task organisers via email (i.dealmeidanolasco@qmul.ac.uk) or in the slack channel: <a href="https://dcase.slack.com/archives/C01P5UE0VB5">task-fewshot-bio-sed</a>
