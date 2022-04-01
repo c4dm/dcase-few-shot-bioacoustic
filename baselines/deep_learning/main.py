@@ -191,7 +191,7 @@ def main(conf : DictConfig):
             encoder = ProtoNet()
 
         
-        best_acc,model,best_state = train_protonet(encoder,train_loader,valid_loader,conf,num_episodes_tr,num_episodes_vd)
+        best_acc,model = train_protonet(encoder,train_loader,valid_loader,conf,num_episodes_tr,num_episodes_vd)
         print("Best accuracy of the model on training set is {}".format(best_acc))
 
     if conf.set.eval:
@@ -230,4 +230,3 @@ def main(conf : DictConfig):
 
 if __name__ == '__main__':
      main()
-
