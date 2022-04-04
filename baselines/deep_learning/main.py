@@ -17,7 +17,7 @@ from torch.nn import functional as F
 from util import prototypical_loss as loss_fn
 from util import evaluate_prototypes
 from glob import glob
-import hydra
+from hydra import initialize, initialize_config_module, initialize_config_dir, compose
 from omegaconf import DictConfig, OmegaConf
 import h5py
 
