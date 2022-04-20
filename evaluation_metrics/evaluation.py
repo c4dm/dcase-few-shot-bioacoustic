@@ -324,10 +324,3 @@ if __name__ == "__main__":
 
     evaluate( args.pred_file, args.ref_files_path, args.team_name, args.dataset, args.savepath)
 
-    # pred_file="/homes/in304/dcase-few-shot-bioacoustic/template_matching_predictions_Valset22 copy.csv"
-    # ref_files_path="/import/c4dm-datasets/DCASE_FSBIOSED_31_MARCH_DOWNLOAD/Development_Set/Validation_Set"
-    # team_name="TESTtean_debug"
-    # dataset="VAL"
-    # savepath="./"
-    # evaluate( pred_file, ref_files_path, team_name, dataset, savepath)
-
