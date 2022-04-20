@@ -56,6 +56,9 @@ def compute_tp_fp_fn(pred_events_df, ref_events_df):
 
     if "Q" not in pred_events_df.columns:
         pred_events_df["Q"] = POS_VALUE
+
+    #sort events by starttime
+    pred_events_df = pred_events_df.sort_values(by='Starttime', axis=0, ascending=True)
     pred_pos_indexes = select_events_with_value(pred_events_df, value=POS_VALUE)
 
     ref_1st_round = build_matrix_from_selected_rows(ref_events_df, ref_pos_indexes)
@@ -180,6 +183,8 @@ def evaluate(pred_file_path, ref_file_path, team_name, dataset, savepath, metada
                
         # for each audiofile, load correcponding GT File (audiofilename.csv)
         ref_events_this_audiofile_all = pd.read_csv(os.path.join(ref_file_path, inv_gt_file_structure[audiofilename], audiofilename[0:-4]+'.csv'), dtype={'Starttime':np.float64, 'Endtime': np.float64})
+        # sort events by starttime:
+        ref_events_this_audiofile_all = ref_events_this_audiofile_all.sort_values(by='Starttime', axis=0, ascending=True)
         
         #Remove the 5 shots from GT:
         ref_events_this_audiofile = remove_shots_from_ref(ref_events_this_audiofile_all, number_shots=N_SHOTS)
@@ -209,6 +214,8 @@ def evaluate(pred_file_path, ref_file_path, team_name, dataset, savepath, metada
     for audiofilename in list_all_audiofiles:
         if audiofilename not in counts_per_audiofile.keys():
             ref_events_this_audiofile = pd.read_csv(os.path.join(ref_file_path, inv_gt_file_structure[audiofilename], audiofilename[0:-4]+'.csv'), dtype=str)
+            # sort ref_events by starttime
+            ref_events_this_audiofile = ref_events_this_audiofile.sort_values(by='Starttime', axis=0, ascending=True)
             total_n_pos_events_in_audiofile =  len(select_events_with_value(ref_events_this_audiofile, value=POS_VALUE))
             counts_per_audiofile[audiofilename] = {"TP": 0, "FP": 0, "FN": total_n_pos_events_in_audiofile, "total_n_pos_events": total_n_pos_events_in_audiofile}
     
@@ -315,6 +322,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # print(args)
 
-    # evaluate( args.pred_file, args.ref_files_path, args.team_name, args.dataset, args.savepath, args.metadata)
     evaluate( args.pred_file, args.ref_files_path, args.team_name, args.dataset, args.savepath)
 
