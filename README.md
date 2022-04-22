@@ -14,7 +14,7 @@ This is the official repository for Few-shot Bioacoustic Event Detection (Task 5
 + Fixed ontologies or class labels used in SED and other DCASE tasks are often a poor fit to a given user’s goal.
 
 # Development Set
-The development set is pre-split into training and validation sets. The training set consists of five subfolders deriving from a different source each. Along with the audio files multi-class annotations are provided for each. The validation set consists of four sub-folders deriving from a different source each, with a single-class (class of interest) annoation file provided for each audio file. 
+The development set is pre-split into training and validation sets. The training set consists of five subfolders deriving from a different source each. Along with the audio files multi-class annotations are provided for each. The validation set consists of three sub-folders deriving from a different source each, with a single-class (class of interest) annoation file provided for each audio file. 
 
 ## Training Set 
 The training set contains five different sub-folders (BV, HV, JD, MT, WMW). Statistics are given overall and specific for each sub-folder. 
@@ -107,7 +107,7 @@ audio.wav,99.9,100.0,UNK,UNK,...,NEG
 ```
 
 ## Validation Set
-The validation set comprises of four sub-folders (HB, PB, ME, ML). Specific information about the source of the recordings and target classes should not be used to help development of the submitted systems, since the corresponding info for the Evaluation set is not going to be provided for the participants for the duration of the challenge.
+The validation set comprises of four sub-folders (HB, PB, ME). Specific information about the source of the recordings and target classes should not be used to help development of the submitted systems, since the corresponding info for the Evaluation set is not going to be provided for the participants for the duration of the challenge.
 Participants should treat the validation set in a similar way to the evaluation set.
 
 **There is no overlap between the training set and validation set classes.** 
@@ -117,10 +117,10 @@ Participants should treat the validation set in a similar way to the evaluation 
 
 | Statistics | Values |
 | --- | --- |
-| Number of audio recordings		|	35 |
-| Total duration					|	6 hours and 17 minutes |
-| Total classes 					|	22 |
-| Total events 						|	2007 |
+| Number of audio recordings		|	18 |
+| Total duration					|	5 hours and 57 minutes |
+| Total classes 					|	5 |
+| Total events 						|	972 |
 
 
 ### HB
@@ -156,16 +156,6 @@ Participants should treat the validation set in a similar way to the evaluation 
 | Ratio event/duration			|	0.01|
 | Sampling rate					|	48000 Hz |
 
-### ML
-
-| Statistics | Values |
-| --- | --- |
-| Number of audio recordings		|	17 |
-| Total duration					|	20 minutes |
-| Total classes 					|	17 |
-| Total events 					|	1035 |
-| Ratio event/duration			|	0.18|
-| Sampling rate					|	44100 Hz |
 
 ### Validation annotation format
 Annotation files have the same name as their corresponding audiofiles with extension `*.csv`. For the validation set single-class (class of interest) annotations are provided, with positive (POS), unkwown (UNK) values. UNK indicates uncertainty about a class and participants can choose to ignore it. Each audio file should be treated separately of the rest, as there is possible overlap between the classes of the evaluation set across different audio files.
@@ -186,7 +176,8 @@ audio_val.wav,99.9,100.0,UNK
 
 ### DCASE 2022 Task 5: Few-shot Bioacoustic Event Detection Development Set
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6012310.svg)](https://doi.org/10.5281/zenodo.6012310)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6012309.svg)](https://doi.org/10.5281/zenodo.6012309)
+
 
 # Evaluation Set
 
