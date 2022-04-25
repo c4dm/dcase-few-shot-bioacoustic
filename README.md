@@ -255,7 +255,7 @@ Wang, Y., Salamon, J., Bryan, N. J., & Bello, J. P. (2020). Few-shot sound event
 
 | System | F-measure | Precision | Recall |
 | --- | --- | --- | --- |
-| Template Matching		|	4.28% | 2.42% | 18.32% |
+| Template Matching		|	3.29% | 1.82% | 17.25% |
 | Prototypical Network	|	  29.59% | 36.34% | 24.96%| 
 
 Sound event detection via few-shot learning is a novel and challenging task, as reflected in the performance of the baseline systems. There is thus lots of scope for improving on these scores, and making a significant contribution to animal monitoring.
