@@ -107,7 +107,7 @@ audio.wav,99.9,100.0,UNK,UNK,...,NEG
 ```
 
 ## Validation Set
-The validation set comprises of four sub-folders (HB, PB, ME). Specific information about the source of the recordings and target classes should not be used to help development of the submitted systems, since the corresponding info for the Evaluation set is not going to be provided for the participants for the duration of the challenge.
+The validation set comprises of three sub-folders (HB, PB, ME). Specific information about the source of the recordings and target classes should not be used to help development of the submitted systems, since the corresponding info for the Evaluation set is not going to be provided for the participants for the duration of the challenge.
 Participants should treat the validation set in a similar way to the evaluation set.
 
 **There is no overlap between the training set and validation set classes.** 
@@ -172,16 +172,24 @@ audio_val.wav,1.1,2.2,POS
 audio_val.wav,99.9,100.0,UNK
 ```
 
-# Download
+# Evaluation Set
+The evaluation set has been released! 
 
-### DCASE 2022 Task 5: Few-shot Bioacoustic Event Detection Development Set
+it consists of 46 audio files acquired from different bioacoustic sources organized by 6 subsets (DC, CHE, MGE, MS, QU)
+At this time only the first 5 annotations are provided for each file, with events marked as positive (POS) for the class of interest. 
+The annotation files follow the same format as for the validation set. 
+This dataset is to be used for evaluation purposes during the task and the rest of the annotations will be released after the end of the DCASE 2022 challenge (July 1st) together with some extra information related to target classes.
 
+# Downloads
+
+### DCASE 2022 Task 5: Few-shot Bioacoustic Event Detection Development Set 
+(last release 25th April)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6012309.svg)](https://doi.org/10.5281/zenodo.6012309)
 
+### DCASE 2022 Task 5: Few-shot Bioacoustic Event Detection Evaluation Set 
+(released 1st June 2022 - the complete annotations wil be released after the challenge ends)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6517413.svg)](https://doi.org/10.5281/zenodo.6517413)
 
-# Evaluation Set
-
-**The evaluation set will be made available on June 1st 2022.** 
 
 **There is no overlap between the development set and evaluation set classes.** 
 
