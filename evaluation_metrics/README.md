@@ -4,7 +4,7 @@ This is the evaluation metrics for the DCASE 2021 task 5 Few-shot Bioacoustic Ev
 
 We implemented an event-based F-measure, macro-averaged evaluation metric. We use IoU followed by bipartite graph matching. The evalution metric ignores the part of the file that contains the first five positive (POS) events and measures are estimated after the end time of the fitfh positive event for each file. Furthermore, real-world datasets contain a small number of ambiguous or unknown labels marked as UNK in the annotation files provided. This evaluation metrics treats these separately during evaluation, so as not to penalise algorithms that can perform better than a human annotator. Final ranking of methods will be based on the overall F-measure for the whole of the evaluation set.
 
-**Make sure the folder structure of the ground truth annotations are as downloaded from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4543504.svg)](https://doi.org/10.5281/zenodo.4543504)**
+**Make sure the folder structure of the ground truth annotations follows the exact structure of the dataset in the Zenodo repo.
 
 Example of how to run for the Validation set:
 
