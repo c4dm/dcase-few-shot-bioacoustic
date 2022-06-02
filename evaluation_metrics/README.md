@@ -13,4 +13,4 @@ python evaluation.py -pred_file=baseline_template_val_predictions.csv -ref_files
  
 ```
 
-An example prediction file can be downloaded <a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/blob/main/dcase_2021_fewshot_submission_package.zip">here</a> 
+An example prediction file can be downloaded <a href="https://github.com/c4dm/dcase-few-shot-bioacoustic/blob/main/dcase_2022_fewshot_submission_package.zip">here</a> 
