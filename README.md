@@ -1,4 +1,4 @@
-# Few-shot Bioacoustic Event Detection (DCASE 2021 Task 5) source code
+# Few-shot Bioacoustic Event Detection (DCASE 2022 Task 5) source code
 This is the official repository for Few-shot Bioacoustic Event Detection (Task 5 in the DCASE Challenge 2022). This repository contains the source code to run the evaluation metrics, and the baseline systems, along with a detailed description of the task. 
 
 # Task Description
@@ -271,3 +271,7 @@ Sound event detection via few-shot learning is a novel and challenging task, as 
 # Contact
 
 Participants can contact the task organisers via email (i.dealmeidanolasco@qmul.ac.uk) or in the slack channel: <a href="https://join.slack.com/t/dcase/shared_invite/zt-12zfa5kw0-dD41gVaPU3EZTCAw1mHTCA">task-fewshot-bio-sed</a>
+
+# Cite:
+This task, the baselines and results for the 2021 edition are described in the paper: <a href="https://dcase.community/documents/workshop2021/proceedings/DCASE2021Workshop_Morfi_52.pdf">Morfi, Veronica, et al. "Few-Shot Bioacoustic Event Detection: A New Task at the DCASE 2021 Challenge." DCASE. 2021.</a>
+
