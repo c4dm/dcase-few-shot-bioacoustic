@@ -275,3 +275,6 @@ Participants can contact the task organisers via email (i.dealmeidanolasco@qmul.
 # Cite:
 This task, the baselines and results for the 2021 edition are described in the paper: <a href="https://dcase.community/documents/workshop2021/proceedings/DCASE2021Workshop_Morfi_52.pdf">Morfi, Veronica, et al. "Few-Shot Bioacoustic Event Detection: A New Task at the DCASE 2021 Challenge." DCASE. 2021.</a>
 
+The baselines, datasets and results of the 2022 edition are described in the paper: <a href="https://dcase.community/documents/workshop2022/proceedings/DCASE2022Workshop_Nolasco_14.pdf"> Nolasco, Ines, et al. "Few-Shot Bioacoustic Event Detection at the DCASE 2022 Challenge." DCASE. 2022.</a>
+
+
