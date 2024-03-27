@@ -84,6 +84,14 @@ ipython_config.py
 # pyenv
 .python-version
 
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
@@ -127,3 +135,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# Lightning-Hydra-Template
+baselines/dcase2024_task5/configs/local/default.yaml
+data/
+logs/
+results/
+wandb/
+.env
+.autoenv
+*.json
