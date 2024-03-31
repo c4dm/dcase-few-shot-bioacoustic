@@ -1,0 +1,9 @@
+_target_: src.models.prototype_module.PrototypeModule
+train: ${train_param}
+path: ${path}
+features: ${features}
+eval: ${eval_param}
+
+net:
+  _target_: src.models.components.byol_a.AudioNTT2020
+  # _target_: src.models.components.protonet_old.Protonet

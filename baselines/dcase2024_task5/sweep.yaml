@@ -1,0 +1,31 @@
+program: train.py
+method: bayes
+
+metric:
+  name: fmeasure_no_postprocessing
+  goal: maximize
+
+parameters:
+  features.drop_rate: 
+    values: [0.0,0.1,0.2,0.3]
+
+  eval_param.seg_len:
+    values: [0.2,0.4,0.6,0.8]
+
+  features.with_bias:
+    values: [false, true]
+
+  features.non_linearity:
+    values: ["relu","leaky_relu"]
+
+  features.time_max_pool_dim:
+    values: [2, 4, 8]
+
+  features.layer_4:
+    values: [true, false]
+    
+command:
+  - ${env}
+  - python3
+  - ${program}
+  - ${args_no_hyphens}

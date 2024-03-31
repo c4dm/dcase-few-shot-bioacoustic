@@ -1,0 +1,11 @@
+_target_: src.datamodules.prototype_datamodule.PrototypeDataModule
+
+data_dir: ${data_dir} # data_dir is specified in config.yaml
+train_param: ${train_param}
+eval_param: ${eval_param}
+path: ${path}
+features: ${features}
+batch_size: 64
+train_val_test_split: [55_000, 5_000, 10_000]
+num_workers: 0
+pin_memory: False
