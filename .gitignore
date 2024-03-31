@@ -138,7 +138,7 @@ dmypy.json
 
 
 # Lightning-Hydra-Template
-baselines/dcase2024_task5/configs/local/default.yaml
+# baselines/dcase2024_task5/configs/local/default.yaml
 data/
 logs/
 results/
