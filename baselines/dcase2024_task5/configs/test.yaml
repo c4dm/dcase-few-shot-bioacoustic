@@ -1,0 +1,96 @@
+# @package _global_
+
+# specify here default evaluation configuration
+defaults:
+  - _self_
+  - datamodule: prototype.yaml
+  - model: protonet.yaml
+  - callbacks: null
+  - logger: wandb_eval.yaml
+  - trainer: default.yaml
+  - log_dir: evaluation.yaml
+
+  - experiment: null
+
+  # enable color logging
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: colorlog
+
+original_work_dir: ${hydra:runtime.cwd}
+
+data_dir: ${original_work_dir}/data/
+
+print_config: True
+
+ignore_warnings: True
+
+seed: 1234
+
+name: "eval"
+exp_name: "default"
+
+# passing checkpoint path is necessary
+ckpt_path:  null 
+
+set:
+  features: false
+  train: false
+  eval: false
+
+path:
+  root_dir: /import/c4dm-datasets/jinhua-tmp2May/DCASE_Task5
+  train_dir: ${path.root_dir}/Development_Set/Training_Set
+  eval_dir: ${path.root_dir}/Development_Set/Validation_Set
+  test_dir: null
+  extra_train_dir: null
+  mask_dir: null
+
+  feat_path: ${path.root_dir}/Features
+  feat_train: ${path.feat_path}/feat_train
+  feat_eval: ${path.feat_path}/feat_eval
+
+features:
+  seg_len: 0.200
+  hop_seg: 0.100
+  eps: 2.220446049250313e-16
+  fmax: 11025
+  fmin: 50
+  sr: 22050
+  n_fft: 1024
+  n_mels: 128
+  hop_mel: 256
+  feature_types: logmel
+  embedding_dim: 2048
+  drop_rate: 0.1
+  with_bias: false
+  non_linearity: leaky_relu
+  time_max_pool_dim: 4
+  layer_4: false
+  test_seglen_len_lim: 30
+  test_hoplen_fenmu: 3
+
+train_param:
+  sr: 22050
+  seg_len: 0.200
+  n_shot: 5
+  k_way: 5
+  device: cuda
+  lr_rate: 0.001
+  scheduler_gamma: 0.5
+  scheduler_step_size: 10
+  epochs: 50
+  num_episodes: 2000
+  adaptive_seg_len: true
+  use_validation_first_5: false  # NOTE: DON'T ENABLE TRANSDUCTIVE LEARNING IN THE CHALLENGE
+  negative_train_contrast: true
+  negative_seg_search: false
+  merging_segment: false
+  remove_long_segment: false
+  padd_tail: false
+
+eval_param:
+  samples_neg: 150
+  iterations: 3
+  query_batch_size: 8
+  negative_set_batch_size: 16
+  threshold: 0.9

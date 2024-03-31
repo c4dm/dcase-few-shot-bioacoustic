@@ -1,0 +1,30 @@
+_target_: pytorch_lightning.Trainer
+
+gpus: 1
+
+min_epochs: 1
+max_epochs: 200
+
+# accumulate_grad_batches: 4
+
+# number of validation steps to execute at the beginning of the training
+# num_sanity_val_steps: 0
+
+# ckpt path
+
+################# A checkpoint that trained with validation data
+# resume_from_checkpoint: "/vol/research/dcase2022/project/hhlab/logs/experiments/multiruns/prototype_network/2022-04-13_20-44-16/0/checkpoints/epoch_023_val_loss_1.00.ckpt"
+################# A checkpoint that trained with first five validation data
+# resume_from_checkpoint: "/vol/research/dcase2022/project/hhlab/logs/experiments/runs/prototype_network/2022-04-15_20-05-52/checkpoints/epoch_023_val_loss_0.94.ckpt"
+################# A checkpoint that trained with mel spectrogram (training set data only)
+# resume_from_checkpoint: "/vol/research/dcase2022/project/hhlab/ckpt/model.ckpt"
+################ A checkpoint that trained with pcen@delta_mfcc (training set data only)
+
+# resume_from_checkpoint: "/vol/research/dcase2022/project/hhlab/logs/experiments/runs/prototype_network/2022-06-04_23-53-33/checkpoints/epoch_064_val_acc_1.00.ckpt"
+# resume_from_checkpoint: "/vol/research/dcase2022/project/hhlab/logs/experiments/runs/prototype_network/2022-06-06_21-03-30-good-result/checkpoints/epoch_066_val_acc_1.00.ckpt"
+# limit_train_batches: 1
+# limit_val_batches: 1
+# limit_test_batches: 1
+
+# resume_from_checkpoint: null
+# enable_progress_bar: false
