@@ -317,5 +317,5 @@ if __name__ == "__main__":
     
     
 
-    evaluate_bootstrapped(args.pred_file_path,args.ref_file_path, args.team_name, args.dataset,  args.savepath)
+    evaluate_bootstrapped(args.pred_file,args.ref_files_path, args.team_name, args.dataset,  args.savepath)
    
